@@ -23,9 +23,28 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "codebase/skins/dhtmlxgantt_material.css",
+              "style/angular-material.min.css",
+              "ion.rangeSlider/css/ion.rangeSlider.css",
+              "ion.rangeSlider/css/ion.rangeSlider.skinHTML5.css",
+              "style/main.css"
             ],
-            "scripts": []
+            "scripts": [
+              "codebase/dhtmlxgantt.js",
+              "script/jquery-2.2.4.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "ion.rangeSlider/js/ion-rangeSlider/ion.rangeSlider.js",
+              "script/angular.min.js",
+              "script/angular-animate.min.js",
+              "script/angular-aria.min.js",
+              "script/angular-messages.min.js",
+              "script/angular-material.min.js",
+              "script/moment.js"
+              ,"script/otis-angular.js",
+              "script/otis-gantt.js"
+             
+            ]
           },
           "configurations": {
             "production": {

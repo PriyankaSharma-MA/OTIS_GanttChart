@@ -1,14 +1,105 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Granttchart</title>
-  <base href="/">
+<!DOCTYPE html>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+  <!-- Angular Material style sheet -->
+  <link rel="stylesheet" href="style/angular-material.min.css" />
+
+  <script src="codebase/dhtmlxgantt.js"></script>
+  <link href="codebase/skins/dhtmlxgantt_material.css" rel="stylesheet">
+  <script src="script/jquery-2.2.4.min.js"></script>
+
+  <link rel="stylesheet" href="ion.rangeSlider/css/ion.rangeSlider.css">
+  <link rel="stylesheet" href="ion.rangeSlider/css/ion.rangeSlider.skinHTML5.css" />
+  <script src="ion.rangeSlider/js/ion-rangeSlider/ion.rangeSlider.js"></script>
+
+
+  <link rel="stylesheet" href="style/main.css" />
 </head>
+
 <body>
-  <app-root></app-root>
+  <md-toolbar style="width: 100%; height: 100%" class="md-body-1">
+    <md-content class="md-padding" layout-xs="column" layout="row" style="width: 100%; height: 100%; padding: 20px;">
+      <div id="" style='width: 100%; height: 5%;'>
+        <div class="btn-group" style="float: left">
+          <button id="project_wise_consolidation_view" onclick="toggleView('project_consolidation_view',0);">Project view</button>
+          <button id="country_wise_consolidation_view" onclick="toggleView('country_consolidation_view',0);">Region view</button>
+          <button id="resource_wise_consolidation_view" onclick="toggleView('resource_consolidation_view',0);">Resource view</button>
+          <button id="map_consolidation_view" onclick="toggleView('map_view',0);">Map view</button>
+        </div>
+        <div id="gantt_selection_criteria">
+          <select id="project_consolidation_view" class="select_view" onchange="changeSelectedProject(this.value);">
+            <option value="0" selected="selected">All</option>
+          </select>
+          <select id="country_consolidation_view" class="select_view" onchange="changeSelectedCountry(this.value);" style="display:none;">
+            <option value="0" selected="selected">All</option>
+          </select>
+          <select id="resource_consolidation_view" class="select_view" onchange="changeSelectedResource(this.value);" style="display:none;">
+            <option value="0" selected="selected">All</option>
+          </select>
+          <button class="gantt_color_pallete" style="background: #F9C9B0;" onclick="changeColor('#F9C9B0');"></button>
+          <button class="gantt_color_pallete" style="background: #A5CF94;" onclick="changeColor('#A5CF94');"></button>
+          <button class="gantt_color_pallete" style="background: #448AFF;" onclick="changeColor('#448AFF');"></button>
+          <button class="gantt_color_pallete" style="background: #6F6FE0;" onclick="changeColor('#6F6FE0');"></button>
+          <button class="gantt_color_pallete" style="background: #cc9191;" onclick="changeColor('#cc9191');"></button>
+        </div>
+      </div>
+      <div id="gantt_view" style="height: 90%">
+        <div id="gantt_here" style='height: 100%; margin: 20px 0px 20px 0px;'>
+        </div>
+
+        <div id="cardTimelineBar" style='display: none'>
+          <div class="controls" style="float: left; width: 5%; padding-top: 10px;">
+            <a href="#" onclick="cardRunTimeline();" title="Play timeline" class="play cardTimelineBarPlay"></a>
+          </div>
+          <div class="range-slider">
+            <input type="text" id="cardRangeSlider" value="" />
+          </div>
+        </div>
+        <div ng-controller="OtisCtrl" ng-cloak id="OtisCtrl">
+          <section ng-if="visibleLayout">
+            <md-content>
+              <div flex layout layout-wrap layout-fill layout-align="start center" class="">
+                <md-card md-theme="default" class="z-depth" ng-repeat="imgName in images track by $index">
+                  <div class="md-media-xl card-media cardImg cardImgCenterAlign" md-ink-ripple="#0000FF">
+                    <img ng-src="img/{{imgName}}" class="md-card-image" alt="OTIS">
+                  </div>
+                </md-card>
+              </div>
+            </md-content>
+          </section>
+        </div>
+      </div>
+      <div id="map_view" style='height: 95%; display: none'>
+        <div class="timelineBar">
+          <div class="controls" style="float: left; width: 5%; padding-top: 10px;">
+            <a href="#" onclick="runTimeline();" title="Play timeline" class="play"></a>
+          </div>
+          <div class="range-slider" style="">
+            <input type="text" class="js-range-slider" value="" />
+          </div>
+        </div>
+        <div id="map"></div>
+      </div>
+    </md-content>
+  </md-toolbar>
+
+  <!-- Angular Material requires Angular.js Libraries -->
+  <script src="script/angular.min.js"></script>
+  <script src="script/angular-animate.min.js"></script>
+  <script src="script/angular-aria.min.js"></script>
+  <script src="script/angular-messages.min.js"></script>
+
+  <!-- Angular Material Library -->
+  <script src="script/angular-material.min.js"></script>
+
+  <script src="script/moment.js"></script>
+  <!-- application bootstrap  -->
+  <script src="script/otis-angular.js"></script>
+
+  <script src="script/otis-gantt.js"></script>
+
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsnBvhur6SXaxP3rSS_2J6nqjIaTdhh6Q&callback=initMap">
+  </script>
 </body>
-</html>
