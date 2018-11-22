@@ -346,7 +346,6 @@ otisApp.controller('OtisCtrl', ['$scope', function ($scope) {
         var cutDate = moment(new Date(projectYear, projectMonth) ).toDate();
         console.log(task); console.log(cutDate + "-" + new Date(projectYear, projectMonth) 
          + "-" + new Date(selYear, selQuarterEndMonth)); 
-       
         if (cutDate <= moment(new Date(selYear, selQuarterEndMonth) ).toDate() 
         	|| task.isAlreadyLive == "true") {
           var imgObj = imgProjectMap.filter(function(elm){

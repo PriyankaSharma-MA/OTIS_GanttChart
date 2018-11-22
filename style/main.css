@@ -5,15 +5,30 @@ html, body {
 	margin: 0px;
 	overflow: hidden;
 }
-
+.button{
+	background-color: #599dda!important;
+    border: 1px solid#599dda!important;
+    color: white;
+    padding: 10px 10px;
+    cursor: pointer;
+    float: left;
+	margin-right: 5px;
+	text-decoration-line: none;
+	box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+	font-size: 12px;
+	border-radius: 2px !important;
+}
 .btn-group button {
-	background-color: #4CAF50; /* Green background */
-	border: 1px solid green; /* Green border */
+	background-color:#599dda!important; /* Green background */
+	border: 1px solid#599dda!important ;/* Green border */
 	color: white; /* White text */
 	padding: 10px 24px; /* Some padding */
 	cursor: pointer; /* Pointer/hand icon */
 	float: left; /* Float the buttons side by side */
 	margin-right: 5px;
+	box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+	font-size: 12px;
+	border-radius: 2px !important;
 }
 
 .btn-group button:not (:last-child ) {

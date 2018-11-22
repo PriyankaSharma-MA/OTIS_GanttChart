@@ -33,7 +33,6 @@
             "scripts": [
               "codebase/dhtmlxgantt.js",
               "script/jquery-2.2.4.min.js",
-              "node_modules/jquery/dist/jquery.min.js",
               "ion.rangeSlider/js/ion-rangeSlider/ion.rangeSlider.js",
               "script/angular.min.js",
               "script/angular-animate.min.js",
