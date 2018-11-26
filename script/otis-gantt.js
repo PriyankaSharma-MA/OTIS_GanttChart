@@ -1,6 +1,21 @@
+var colorWell;
+var defaultColor = "#448AFF";
+
+window.addEventListener("load", startup, false);
+function startup() {
+  colorWell = document.querySelector("#colorWell");
+  colorWell.value = defaultColor;
+  colorWell.addEventListener("input", updateFirst, false);
+
+  colorWell.select();
+}
+function updateFirst(event) {
+  changeColor(event.target.value)
+  //alert(event.target.value)
+}
 var countryData; var project_wise_data; var tasks; var selectedCountryId = 0;
-//var APIPath="http://35.188.173.90/ganttChart/api/CSV/";
-var APIPath="http://localhost:63562/api/CSV/";
+var APIPath="http://35.188.173.90/ganttChart/api/CSV/";
+// var APIPath="http://localhost:63562/api/CSV/";
 function handleFileSelect() { 
 
 let input = document.querySelector('input[type="file"]');

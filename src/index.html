@@ -8,7 +8,7 @@
 
   <script src="codebase/dhtmlxgantt.js"></script>
   <link href="codebase/skins/dhtmlxgantt_material.css" rel="stylesheet">
-  <script src="script/jquery-2.2.4.min.js"></script>
+  <!-- <script src="script/jquery-2.2.4.min.js"></script> -->
 
   <link rel="stylesheet" href="ion.rangeSlider/css/ion.rangeSlider.css">
   <link rel="stylesheet" href="ion.rangeSlider/css/ion.rangeSlider.skinHTML5.css" />
@@ -16,27 +16,57 @@
 
 
   <link rel="stylesheet" href="style/main.css" />
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- jQuery 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>-->
+
+  <!-- Bootstrap JS -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 </head>
 
 <body>
+  <!-- <div class="container">
+        <div class="sidebyside">div0</div>
+        <div class="sidebyside">div1</div>
+        <div class="sidebyside">div2</div>
+        <div class="sidebyside">div3</div>
+        <div class="sidebyside">div4</div>
+    </div> -->
+  <!-- <div class="belowdiv">div5</div>
+    <div class="belowdiv">div6</div>
+    <div class="belowdiv">div7</div>
+    <div class="belowdiv">div8</div>
+    <div class="belowdiv">div9</div> -->
   <md-toolbar style="width: 100%; height: 100%" class="md-body-1">
     <md-content class="md-padding" layout-xs="column" layout="row" style="width: 100%; height: 100%; padding: 20px;">
-      <div id="" style='width: 100%; height: 5%;'>
-        <div class="btn-group" style="float: left">
+
+      <div class="container" id="" style='width: 100%;'>
+        <!-- <div class="btn-group" style="float: left">
           <button id="project_wise_consolidation_view" onclick="toggleView('project_consolidation_view',0);">Project view</button>
           <button id="country_wise_consolidation_view" onclick="toggleView('country_consolidation_view',0);">Region view</button>
           <button id="resource_wise_consolidation_view" onclick="toggleView('resource_consolidation_view',0);">Resource view</button>
           <button id="map_consolidation_view" onclick="toggleView('map_view',0);">Map view</button>
+        </div> -->
+        <div class="sidebyside">
+          <ul class="nav nav-tabs" id="myTab">
+            <li class="active">
+              <a data-target="#gantt_view" data-toggle="tab" onclick="toggleView('project_consolidation_view',0);">Project view</a>
+            </li>
+            <li>
+              <a data-target="#gantt_view" data-toggle="tab" onclick="toggleView('country_consolidation_view',0);">Region view</a>
+            </li>
+            <li>
+              <a data-target="#gantt_view" data-toggle="tab" onclick="toggleView('resource_consolidation_view',0);">Resource view</a>
+            </li>
+            <li>
+              <a data-target="#gantt_view" data-toggle="tab" onclick="toggleView('map_view',0);">Map view</a>
+            </li>
+          </ul>
         </div>
-        <div style="float: right" ng-controller = "myCtrl">
-          <input type = "file" file-model = "myFile" accept=".csv"/>
-          <button class="button" onclick= "handleFileSelect()">Upload</button>
-       </div>
-       <div style="float: right">
-
-       <a style="line-height:14px !important" class="button" href="http://35.188.173.90/ganttChart/CSV/template.csv" >Download Template</a>
-     </div>
-        <div id="gantt_selection_criteria">
+        <div class="sidebyside dropdown ui-inputtext" id="gantt_selection_criteria">
           <select id="project_consolidation_view" class="select_view" onchange="changeSelectedProject(this.value);">
             <option value="0" selected="selected">All</option>
           </select>
@@ -46,15 +76,42 @@
           <select id="resource_consolidation_view" class="select_view" onchange="changeSelectedResource(this.value);" style="display:none;">
             <option value="0" selected="selected">All</option>
           </select>
+        </div>
+        <div class="sidebyside"  style="width:20%">
+            <input type="color" value="#448AFF" id="colorWell" title="Change color">
+            <!-- <div   class="gantt_color_pallete" style="background: #F9C9B0;" onclick="changeColor('#F9C9B0');"></div>
+            <div class="gantt_color_pallete" style="background: #A5CF94;" onclick="changeColor('#A5CF94');"></div>
+            <div class="gantt_color_pallete" style="background: #448AFF;" onclick="changeColor('#448AFF');"></div>
+            <div class="gantt_color_pallete" style="background: #6F6FE0;" onclick="changeColor('#6F6FE0');"></div>
+            <div class="gantt_color_pallete" style="background: #cc9191;" onclick="changeColor('#cc9191');"></div> -->
+   <!-- 
           <button class="gantt_color_pallete" style="background: #F9C9B0;" onclick="changeColor('#F9C9B0');"></button>
           <button class="gantt_color_pallete" style="background: #A5CF94;" onclick="changeColor('#A5CF94');"></button>
           <button class="gantt_color_pallete" style="background: #448AFF;" onclick="changeColor('#448AFF');"></button>
           <button class="gantt_color_pallete" style="background: #6F6FE0;" onclick="changeColor('#6F6FE0');"></button>
-          <button class="gantt_color_pallete" style="background: #cc9191;" onclick="changeColor('#cc9191');"></button>
+          <button class="gantt_color_pallete" style="background: #cc9191;" onclick="changeColor('#cc9191');"></button> -->
         </div>
+       
+        <div class="sidebyside" ng-controller="myCtrl">
+          <div class="upload" style="float:left">
+            Choose File
+            <input type="file" class="hide_file" file-model="myFile" accept=".csv" style="display:inline;width:195px" />
+                 <!-- <button class="button" onclick="handleFileSelect()"><img src="assets/upload.png" title="Upload"></button> -->
+          </div>
+          <img src="assets/upload.png" onclick="handleFileSelect()" title="Upload">
+    
+          <div style="float:right">
+              Template <a style="line-height:14px !important" href="http://35.188.173.90/ganttChart/CSV/template.csv">
+           <img src="assets/download.png" title="Download template">
+            </a>
+
+          </div>
+
+        </div>
+
       </div>
       <div id="gantt_view" style="height: 90%">
-        <div id="gantt_here" style='height: 100%; margin: 20px 0px 20px 0px;'>
+        <div id="gantt_here" style='height: 100%; margin: 1px 0px 20px 0px;'>
         </div>
 
         <div id="cardTimelineBar" style='display: none'>
@@ -92,10 +149,10 @@
       </div>
     </md-content>
   </md-toolbar>
-  <script> $(document).ready(function(){
-    var APIPath="http://35.188.173.90/ganttChart/CSV/";
+  <script> $(document).ready(function () {
+      var APIPath = "http://35.188.173.90/ganttChart/CSV/";
     });</script>
- 
+
   <!-- Angular Material requires Angular.js Libraries -->
   <script src="script/angular.min.js"></script>
   <script src="script/angular-animate.min.js"></script>
@@ -113,6 +170,6 @@
 
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsnBvhur6SXaxP3rSS_2J6nqjIaTdhh6Q&callback=initMap">
   </script>
-   
+
 </body>
 <app-root></app-root>

@@ -1,9 +1,132 @@
-html, body {
+div .upload{
+	padding:5px 10px;
+	background:#337ab7;
+	border:1px solid #337ab7;
+	position:relative;
+	color:#fff;
+	border-radius:2px;
+	text-align:center;
+	float:left;
+	cursor:pointer
+  }
+  .hide_file {
+	  position: absolute;
+	  z-index: 1000;
+	  opacity: 0;
+	  cursor: pointer;
+	  right: 0;
+	  top: 0;
+	  height: 100%;
+	  font-size: 24px;
+	  width: 100%;
+	  
+  }
+
+.ui-inputtext {
+    background: #fff;
+    color: #222;
+    transition: .2s;
+}
+.dropdown select{
+	background:transparent;
+	 font-size:12px;
+	 font-weight:400;
+	 line-height: 1;
+	 border: 1px solid #ccc;
+	 border-radius: 0;
+	 /*Hides the default arrows for Selects*/
+	/* -webkit-appearance: none;
+	-moz-appearance: none;
+	  text-indent: 0.01px;
+	  text-overflow: '';
+	   position: relative;  */
+       color: #222;
+	   transition: .2s;
+	}
+  
+  
+  .dropdown{
+
+	display: block;
+    border: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    font-weight: 400;
+    width: 100%;
+    padding-right: 2.5em;
+	font-size: 12px!important;
+	
+
+	  width: 150px;
+	  overflow: hidden;
+	  background: no-repeat right #eee;
+	  /* border-top:#575757 1px solid; */
+	  -webkit-border-radius: 4px 4px 4px 4px;
+	   -moz-border-radius: 4px 4px 4px 4px;
+			border-radius: 4px 4px 4px 4px;
+	  -webkit-box-shadow: inset 0 2px 4px rgba(107, 105, 105, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+	   -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+			box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+			-moz-box-shadow:    0px 8px 3px -9px #000000;
+			-webkit-box-shadow: 0px 8px 3px -9px #000000;
+			box-shadow:         0px 8px 3px -9px #000000;  
+  
+  }
+  
+  .dropdown {
+	  position: relative;
+  }
+  
+  .dropdown:before {
+	  content: "";
+	  position: absolute;
+	  right: 10px;
+	  top: 8px;
+	  width: 0; 
+	  height: 0; 
+	  border-left: 10px solid transparent;
+	  border-right: 10px solid transparent;
+	  border-top: 10px solid #555;
+  }
+  
+  .dropdown:after {
+	  content: "";
+	  position: absolute;
+	  right: 10px;
+	  top: 3px;
+	  width: 0; 
+	  height: 0; 
+	  /* border-left: 10px solid transparent;
+	  border-right: 10px solid transparent;
+	  border-top: 10px solid #333; */
+  }
+  select > option {
+	background: #D3D3D3;
+	color: black;
+  }
+  html, body {
 	height: 100%;
 	width: 100%;
 	padding: 0px;
 	margin: 0px;
 	overflow: hidden;
+}
+.container {
+    overflow:auto;
+}
+.sidebyside {
+    float:left; 
+    /* width:100px; 
+    height:100px;  */
+    /* border-style:solid;  */
+	margin-right:5px;
+	color:#337ab7;
+}
+.belowdiv {
+    width:300px; 
+    height:100px; 
+    border-style:solid; 
+    margin:5px;
 }
 .button{
 	background-color: #599dda!important;
@@ -180,8 +303,8 @@ font-size: 12px;
 }
 
 .gantt_color_pallete{
-    height: 20px;
-    width: 20px;
+    height: 8px;
+    width: 150px;
 }
 
 .cardImg {
