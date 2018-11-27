@@ -1,3 +1,29 @@
+
+  
+  select {
+	margin-bottom: 2px;
+	padding: .25em;
+	border: 0;
+	border-bottom: 1px solid #ccc; 
+	font-weight: 400;
+	border-radius: 0;
+	font-size: 12px;
+	width: 150px;
+	height: 34px;
+    /* padding: 5px 35px 5px 5px;
+  
+    border: 1px solid #ccc;
+   
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: #eee; */
+  }
+  
+
+
+
+  
 div .upload{
 	padding:5px 10px;
 	background:#337ab7;
@@ -9,6 +35,15 @@ div .upload{
 	float:left;
 	cursor:pointer
   }
+  .download{
+	line-height: 14px !important;
+    color: #fff;
+    text-decoration: none;
+  }
+  a:focus, a:hover {
+    color:  #fff;
+    text-decoration: none;
+}
   .hide_file {
 	  position: absolute;
 	  z-index: 1000;
@@ -120,7 +155,7 @@ div .upload{
     height:100px;  */
     /* border-style:solid;  */
 	margin-right:5px;
-	color:#337ab7;
+	/* color:#337ab7; */
 }
 .belowdiv {
     width:300px; 
