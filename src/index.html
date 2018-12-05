@@ -14,6 +14,8 @@
   <!-- Bootstrap JS -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+  <link rel="stylesheet" href="style/main.css" />
+
 </head>
 
 <body>
@@ -45,12 +47,12 @@
               <select id="country_consolidation_view" onchange="changeSelectedCountry(this.value);" style="display:none;">
                 <option value="0" selected="selected">All</option>
               </select>
-              <select id="resource_consolidation_view" onchange="changeSelectedResource(this.value);" style="display:none;">
+              <select id="resource_consolidation_view"   onchange="changeSelectedResource(this.value);" style="display:none;">
                 <option value="0" selected="selected">All</option>
               </select>
             </div>
             <div class="sidebyside" style="width:35%;margin-top: 19px">
-              <input type="color" value="#448AFF" id="colorWell" title="Change color">
+              <input type="color" value="#655f61" id="colorWell" title="Change color">
             </div>
       
             <div class="sidebyside" ng-controller="myCtrl" style="margin-top:10px">
@@ -99,7 +101,7 @@
           <div class="controls" style="float: left; width: 5%; padding-top: 10px;">
             <a href="#" onclick="runTimeline();" title="Play timeline" class="play"></a>
           </div>
-          <div class="range-slider" style="">
+          <div class="range-slider" >
             <input type="text" class="js-range-slider" value="" />
           </div>
         </div>
@@ -107,9 +109,14 @@
       </div>
     </md-content>
   </md-toolbar>
-  <!-- <script> $(document).ready(function () {
-      var APIPath = "http://35.188.173.90/ganttChart/CSV/";
-    });</script> -->
+  <script> $(document).ready(function () {
+    //  var APIPath = "http://35.188.173.90/ganttChart/CSV/";
+    //  jQuery(document).ready(function($) {
+    initMap();
+//});
+
+    });</script>
+    
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsnBvhur6SXaxP3rSS_2J6nqjIaTdhh6Q&callback=initMap">
   </script>
 
