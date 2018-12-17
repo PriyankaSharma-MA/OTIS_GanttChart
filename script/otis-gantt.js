@@ -1,17 +1,130 @@
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 8; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+
+  //var colors = [ 'green', 'blue', 'orange', 'yellow'];
+
+  //color = colors[Math.floor(Math.random() * colors.length)];
+  color=rotateColors();
+ // color=ColorLuminance(color,0.4)
+  return color;
+}
+
+function getsecondlevelRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 8; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+
+  //var colors = [ 'green', 'blue', 'orange', 'yellow'];
+
+  //color = colors[Math.floor(Math.random() * colors.length)];
+  color=secondlevelrotateColors();
+ // color=ColorLuminance(color,0.4)
+  return color;
+}
+
+function getthirdlevelRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 8; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+
+  //var colors = [ 'green', 'blue', 'orange', 'yellow'];
+
+  //color = colors[Math.floor(Math.random() * colors.length)];
+  color=thirdlevelrotateColors();
+ // color=ColorLuminance(color,0.4)
+  return color;
+}
+
+var GColor = function(r,g,b) {
+  r = (typeof r === 'undefined')?0:r;
+  g = (typeof g === 'undefined')?0:g;
+  b = (typeof b === 'undefined')?0:b;
+  return {r:r, g:g, b:b};
+};
+var createColorRange = function(c1, c2) {
+  var colorList = [], tmpColor;
+  for (var i=0; i<255; i++) {
+      tmpColor = new GColor();
+      tmpColor.r = c1.r + ((i*(c2.r-c1.r))/255);
+      tmpColor.g = c1.g + ((i*(c2.g-c1.g))/255);
+      tmpColor.b = c1.b + ((i*(c2.b-c1.b))/255);
+      colorList.push(tmpColor);
+  }
+  
+  return colorList;
+}
+
+var green = new GColor(0, 255, 0);
+var blue = new GColor(0, 0, 255);
+var greentobluerange = createColorRange(green, blue);
+var red = new GColor(255, 0, 0);
+var bluetoredrange = createColorRange(blue, red);
+var greentoredrange = createColorRange(green, red);
+var pointer = 0;
+var secondlevelpointer = 0;
+var thirdlevelpointer = 0;
+function rotateColors() {
+ // var greentobluerange = createColorRange(green, blue);
+
+    var currentColor = greentobluerange[pointer];
+   // document.getElementById("test").style.backgroundColor = "rgb("+currentColor.r+","+currentColor.g+","+currentColor.b+")";
+    color= "rgb("+currentColor.r+","+currentColor.g+","+currentColor.b+")";
+   // green=new GColor(currentColor.r, currentColor.g, currentColor.b);;
+
+   pointer= pointer + 5 ;
+   if (pointer < greentobluerange.length) window.setTimeout(rotateColors, 5);
+   return color;
+}
+function secondlevelrotateColors() {
+  // var greentobluerange = createColorRange(green, blue);
+ 
+     var currentColor = bluetoredrange[secondlevelpointer];
+    // document.getElementById("test").style.backgroundColor = "rgb("+currentColor.r+","+currentColor.g+","+currentColor.b+")";
+     color= "rgb("+currentColor.r+","+currentColor.g+","+currentColor.b+")";
+    // green=new GColor(currentColor.r, currentColor.g, currentColor.b);;
+ 
+    secondlevelpointer= secondlevelpointer+2;
+    if (secondlevelpointer < bluetoredrange.length) window.setTimeout(secondlevelrotateColors, 5);
+    return color;
+ }
+ function thirdlevelrotateColors() {
+  // var greentobluerange = createColorRange(green, blue);
+ 
+     var currentColor = greentoredrange[thirdlevelpointer];
+    // document.getElementById("test").style.backgroundColor = "rgb("+currentColor.r+","+currentColor.g+","+currentColor.b+")";
+     color= "rgb("+currentColor.r+","+currentColor.g+","+currentColor.b+")";
+    // green=new GColor(currentColor.r, currentColor.g, currentColor.b);;
+ 
+    thirdlevelpointer= thirdlevelpointer+5;
+    if (thirdlevelpointer < greentoredrange.length) window.setTimeout(thirdlevelrotateColors, 5);
+    return color;
+ }
+function setRandomColor() {
+
+  $("#colorpad").css("background-color", getRandomColor());
+}
 var colorWell;
 var defaultColor = "#655f61";
 //#448AFF
 
 window.addEventListener("load", startup, false);
 function startup() {
-  colorWell = document.querySelector("#colorWell");
-  colorWell.value = defaultColor;
-  colorWell.addEventListener("input", updateFirst, false);
+  //colorWell = document.querySelector("#colorWell");
+ // colorWell.value = defaultColor;
+ // colorWell.addEventListener("input", updateFirst, false);
 
-  colorWell.select();
+  //colorWell.select();
 }
 function updateFirst(event) {
-  changeColor(event.target.value)
+  changeColor(defaultColor)
   //alert(event.target.value)
 }
 var countryData; var project_wise_data; var tasks; var selectedCountryId = 0;
@@ -108,60 +221,7 @@ gantt.config.columns = [
   { name: "duration", label: "Duration", align: "center" }
 ];
 
-// gantt.attachEvent("onTaskClick", function (task_id, e) {
-//   var selectedTask = null, node = null;
-// for (var i in tasks.data) {
 
-//   if (tasks.data[i].id == task_id) {
-//     //alert(tasks.data[i].node)
-//     node = tasks.data[i].node
-//     selectedTask = tasks.data[i];
-//   }
-// }
-// if (selectedTask.parent == 0) {
-//   return true;
-// }
-// var options = [];
-
-// if (node == 'project') {
-//   options = $("select#project_consolidation_view option").
-//     map(function () { return parseInt($(this).val()); }).get();
-//   if (options.indexOf(selectedTask.project_id) == -1) {
-//     return true;
-//   }
-//   toggleView('project_consolidation_view', selectedTask.project_id);
-// } else if (node == 'country') {
-//   options = $("select#country_consolidation_view option").
-//     map(function () { return parseInt($(this).val()); }).get();
-//   if (options.indexOf(selectedTask.country_id) == -1) {
-//     return true;
-//   }
-//   toggleView('country_consolidation_view', selectedTask.country_id);
-// } else if (node == 'resource') {
-//   options = $("select#resource_consolidation_view option").
-//     map(function () { return parseInt($(this).val()); }).get();
-//   if (options.indexOf(selectedTask.resource_id) == -1) {
-//     return true;
-//   }
-//   toggleView('resource_consolidation_view', selectedTask.resource_id);
-// }
-
-
-
-//return false;
-//});
-
-
-gantt.templates.task_class = function (start, end, task) {
-  if (task.parent == 0) {
-    return "parent_task";
-  }
-  if (task.project_id == jdeProjectId) {
-    return "jde_task";
-  } else if (task.project_id == gssProjectId) {
-    return "gss_task";
-  }
-};
 function changeSelectedProject(selectionId) {
   selectedCountryId = 0; // reset
   //  initCardLayout(); // prepare angular material cards
@@ -175,7 +235,7 @@ function changeSelectedProject(selectionId) {
     }
   }
   gantt.clearAll(); gantt.parse(tasks);
-  changeColor(document.querySelector("#colorWell").value)
+  //changeColor(document.querySelector("#colorWell").value)
 }
 
 function changeSelectedCountry(selectionId) {
@@ -191,7 +251,7 @@ function changeSelectedCountry(selectionId) {
     }
   }
   gantt.clearAll(); gantt.parse(tasks);
-  changeColor(document.querySelector("#colorWell").value)
+ // changeColor(document.querySelector("#colorWell").value)
   return tasks;
 }
 function changeSelectedResource(selectionId) {
@@ -207,7 +267,7 @@ function changeSelectedResource(selectionId) {
     }
   }
   gantt.clearAll(); gantt.parse(tasks);
-  changeColor(document.querySelector("#colorWell").value)
+  //changeColor(document.querySelector("#colorWell").value)
   return tasks;
 }
 
@@ -231,33 +291,24 @@ function ColorLuminance(hex, lum) {
   return rgb;
 }
 function changeColor(color) {
-  //alert(color)
-  //alert(ColorLuminance(color, 50));
-  //color=ColorLuminance(color, 0.2)
-  for (var i in tasks.data) {
-    // if (tasks.data[i].project_id == jdeProjectId ||
-    //   tasks.data[i].project_id == gssProjectId
-    //   //||tasks.data[i].parent == 0
-    // ) {
-    //  // alert(tasks.data[i].color)
-    //   continue;
-    // }
-    console.log(tasks.data[i])
-    //console.log(tasks.data[i].parent + "-" + tasks.data[i].text);
-    if (tasks.data[i].level == 0) {
-      tasks.data[i].color = ColorLuminance(color, 0);
-    } else
-      if (tasks.data[i].level == 1) {
-        tasks.data[i].color = ColorLuminance(color, 0.4);
-      } else {
-        tasks.data[i].color = ColorLuminance(color, 0.8);
-      }
 
-  }
+  // for (var i in tasks.data) {
+  //   console.log(tasks.data[i])
+
+  //   if (tasks.data[i].level == 0) {
+  //     tasks.data[i].color = ColorLuminance(color, 0);
+  //   } else
+  //     if (tasks.data[i].level == 1) {
+  //       tasks.data[i].color = ColorLuminance(color, 0.4);
+  //     } else {
+  //       tasks.data[i].color = ColorLuminance(color, 0.8);
+  //     }
+
+  // }
   gantt.clearAll(); gantt.parse(tasks);
 }
 function toggleView(viewType, selectionId) {
- //alert( document.querySelector("#colorWell").value);
+  //alert( document.querySelector("#colorWell").value);
   //	$("#country_consolidation_view").toggle(); $("#project_consolidation_view").toggle();
   if (viewType == 'project_consolidation_view') {
     $("#country_consolidation_view").hide(); $("#project_consolidation_view").show(); $("#resource_consolidation_view").hide();
@@ -309,7 +360,7 @@ function runTimeline() {
     clearInterval(playTimeline);
   }
 }
-var $range = $(".js-range-slider");
+var $greentobluerange = $(".js-greentobluerange-slider");
 
 var valueData = ["Q1-2018", "Q2-2018", "Q3-2018", "Q4-2018",
   "Q1-2019", "Q2-2019", "Q3-2019", "Q4-2019", "Q1-2020",
@@ -318,7 +369,7 @@ var valueData = ["Q1-2018", "Q2-2018", "Q3-2018", "Q4-2018",
   "Q4-2022", "Q1-2023", "Q2-2023", "Q3-2023", "Q4-2023",
   "Q1-2024", "Q2-2024", "Q3-2024", "Q4-2024", "Q1-2025",
   "Q2-2025", "Q3-2025", "Q4-2025"];
-$range.ionRangeSlider({
+$greentobluerange.ionRangeSlider({
   values: valueData,
   type: "double",
   from: 0,
@@ -329,9 +380,9 @@ $range.ionRangeSlider({
   }
 });
 
-var slider = $range.data("ionRangeSlider");
+var slider = $greentobluerange.data("ionRangeSlider");
 function moveToNext() {
-  var value = $range.prop("value").split(";");
+  var value = $greentobluerange.prop("value").split(";");
   var currentLastVal = value[1];
   var nextLastVal = valueData.indexOf(currentLastVal) + 1;
   slider.update({
@@ -448,23 +499,38 @@ projectidarray = [];
 countryidarray = [];
 resourceidarray = [];
 
+projectcolorarray = [];
+countrycolorarray = [];
+resourcecolorarray = [];
+
 projectid = 0, countryid = 0, resourceid = 0;
 
 dupesproject = [];
 dupescountry = [];
 dupesresource = [];
+dupescolorarray = [];
+var nodecolor = null;
 var startdates = null, enddates = null, earliest = null, latest = null;
 
 jQuery.each(csvData, function (i, val) {
   if (!dupesproject[csvData[i].project_name]) {
+
     dupesproject[csvData[i].project_name] = true;
     {
       dupescountry = [];
       if (projectidarray[csvData[i].project_name] == undefined) {
         projectidarray[csvData[i].project_name] = projectid + 1
+
+        nodecolor = getRandomColor();
+        if (dupescolorarray[nodecolor] == true) {
+          nodecolor = getRandomColor();
+        } else {
+          dupescolorarray[nodecolor] = true;
+        }
+        projectcolorarray[csvData[i].project_name] = nodecolor;
+        projectid = projectid + 1;
       }
-      projectid = projectid + 1;
-      //  projectidarray[csvData[i].project_name] = i + 1;
+    
       projectfilterdata = query(csvData, [{ key: 'project_name', value: csvData[i].project_name }])
       startdates = projectfilterdata.map(function (x) { return new Date(getdate(x["start_date"])); })
       enddates = projectfilterdata.map(function (x) { return new Date(getdate(x["end_date"])); })
@@ -474,7 +540,7 @@ jQuery.each(csvData, function (i, val) {
 
       project_consolidation_view.push(
         {
-          node: 'project', level: 0, id: projectidarray[csvData[i].project_name], project_id: projectidarray[csvData[i].project_name], text: projectfilterdata[0].project_name, start_date: earliest, end_date: latest, open: false
+          node: 'project', color: projectcolorarray[csvData[i].project_name], level: 0, id: projectidarray[csvData[i].project_name], project_id: projectidarray[csvData[i].project_name], text: projectfilterdata[0].project_name, start_date: earliest, end_date: latest, open: false
         })
 
       jQuery.each(projectfilterdata, function (j, val) {
@@ -490,12 +556,20 @@ jQuery.each(csvData, function (i, val) {
             latest = new Date(Math.max.apply(null, enddates));
             if (countryidarray[val["country_name"]] == undefined) {
               countryidarray[val["country_name"]] = countryid + 1
+              nodecolor = getsecondlevelRandomColor();
+              if (dupescolorarray[nodecolor] == true) {
+                nodecolor = getsecondlevelRandomColor();
+              } else {
+                dupescolorarray[nodecolor] = true;
+              }
+              countrycolorarray[val["country_name"]] = nodecolor;
+              countryid = countryid + 1;
             }
-            countryid = countryid + 1;
+           
 
             project_consolidation_view.push(
               {
-                node: 'country', level: 1, id: projectidarray[csvData[i].project_name].toString() + "00" + countryidarray[val["country_name"]].toString(), country_id: countryidarray[val["country_name"]], project_id: projectidarray[csvData[i].project_name].toString(), text: val["country_name"], start_date: earliest, end_date: latest, isAlreadyLive: "false", parent: projectidarray[csvData[i].project_name], open: false
+                node: 'country', color: countrycolorarray[val["country_name"]], level: 1, id: projectidarray[csvData[i].project_name].toString() + "00" + countryidarray[val["country_name"]].toString(), country_id: countryidarray[val["country_name"]], project_id: projectidarray[csvData[i].project_name].toString(), text: val["country_name"], start_date: earliest, end_date: latest, isAlreadyLive: "false", parent: projectidarray[csvData[i].project_name], open: false
               })
 
             jQuery.each(countryfilterdata, function (k, val) {
@@ -505,11 +579,19 @@ jQuery.each(csvData, function (i, val) {
 
                   if (resourceidarray[val["resource_name"]] == undefined) {
                     resourceidarray[val["resource_name"]] = resourceid + 1
+                    nodecolor = getthirdlevelRandomColor();
+                    if (dupescolorarray[nodecolor] == true) {
+                      nodecolor = getthirdlevelRandomColor();
+                    } else {
+                      dupescolorarray[nodecolor] = true;
+                    }
+                    resourcecolorarray[val["resource_name"]] = nodecolor;
+                    resourceid = resourceid + 1;
                   }
-                  resourceid = resourceid + 1;
+                
                   project_consolidation_view.push(
                     {
-                      node: 'resource', level: 2, id: projectidarray[csvData[i].project_name].toString() + "00" + countryidarray[val["country_name"]].toString() + "00" + resourceidarray[val["resource_name"]].toString(), country_id: countryidarray[val["country_name"]], project_id: projectidarray[csvData[i].project_name].toString(), resource_id: resourceidarray[val["resource_name"]], text: val["resource_name"], start_date: val["start_date"], end_date: val["end_date"], isAlreadyLive: "false", parent: projectidarray[csvData[i].project_name].toString() + "00" + countryidarray[val["country_name"]].toString()
+                      node: 'resource', color: resourcecolorarray[val["resource_name"]], level: 2, id: projectidarray[csvData[i].project_name].toString() + "00" + countryidarray[val["country_name"]].toString() + "00" + resourceidarray[val["resource_name"]].toString(), country_id: countryidarray[val["country_name"]], project_id: projectidarray[csvData[i].project_name].toString(), resource_id: resourceidarray[val["resource_name"]], text: val["resource_name"], start_date: val["start_date"], end_date: val["end_date"], isAlreadyLive: "false", parent: projectidarray[csvData[i].project_name].toString() + "00" + countryidarray[val["country_name"]].toString()
                     })
                 }
               }
@@ -545,7 +627,7 @@ jQuery.each(csvData, function (i, val) {
       latest = new Date(Math.max.apply(null, enddates));
       country_consolidation_view.push(
         {
-          node: 'country', level: 0, id: countryidarray[csvData[i].country_name], country_id: countryidarray[csvData[i].country_name], text: countryfilterdata[0].country_name, start_date: earliest, end_date: latest, isAlreadyLive: false, open: false
+          node: 'country', color: countrycolorarray[csvData[i].country_name], level: 0, id: countryidarray[csvData[i].country_name], country_id: countryidarray[csvData[i].country_name], text: countryfilterdata[0].country_name, start_date: earliest, end_date: latest, isAlreadyLive: false, open: false
         })
 
       jQuery.each(countryfilterdata, function (j, val) {
@@ -561,7 +643,7 @@ jQuery.each(csvData, function (i, val) {
             latest = new Date(Math.max.apply(null, enddates));
             country_consolidation_view.push(
               {
-                node: 'project', level: 1, id: countryidarray[csvData[i].country_name].toString() + "00" + projectidarray[val["project_name"]].toString(), country_id: countryidarray[csvData[i].country_name], project_id: projectidarray[val["project_name"]], text: val["project_name"], start_date: earliest, end_date: latest, isAlreadyLive: "false", parent: countryidarray[csvData[i].country_name], open: false
+                node: 'project', color: projectcolorarray[val["project_name"]].toString(), level: 1, id: countryidarray[csvData[i].country_name].toString() + "00" + projectidarray[val["project_name"]].toString(), country_id: countryidarray[csvData[i].country_name], project_id: projectidarray[val["project_name"]], text: val["project_name"], start_date: earliest, end_date: latest, isAlreadyLive: "false", parent: countryidarray[csvData[i].country_name], open: false
               })
 
             jQuery.each(projectfilterdata, function (k, val) {
@@ -571,7 +653,7 @@ jQuery.each(csvData, function (i, val) {
                 {
                   country_consolidation_view.push(
                     {
-                      node: 'resource', level: 2, id: countryidarray[csvData[i].country_name].toString() + "00" + projectidarray[val["project_name"]].toString() + "00" + resourceidarray[val["resource_name"]].toString(), country_id: countryidarray[csvData[i].country_name].toString(), project_id: projectidarray[val["project_name"]], resource_id: resourceidarray[val["resource_name"]], text: val["resource_name"], start_date: val["start_date"], end_date: val["end_date"], isAlreadyLive: "false", parent: countryidarray[csvData[i].country_name].toString() + "00" + projectidarray[val["project_name"]].toString()
+                      node: 'resource', color: countrycolorarray[csvData[i].country_name], level: 2, id: countryidarray[csvData[i].country_name].toString() + "00" + projectidarray[val["project_name"]].toString() + "00" + resourceidarray[val["resource_name"]].toString(), country_id: countryidarray[csvData[i].country_name].toString(), project_id: projectidarray[val["project_name"]], resource_id: resourceidarray[val["resource_name"]], text: val["resource_name"], start_date: val["start_date"], end_date: val["end_date"], isAlreadyLive: "false", parent: countryidarray[csvData[i].country_name].toString() + "00" + projectidarray[val["project_name"]].toString()
                     })
                 }
               }
@@ -604,7 +686,7 @@ jQuery.each(csvData, function (i, val) {
 
       resource_consolidation_view.push(
         {
-          node: 'resource', level: 0, id: resourceidarray[csvData[i].resource_name], resource_id: resourceidarray[csvData[i].resource_name], text: resourcefilterdata[0].resource_name, start_date: earliest, end_date: latest, open: false
+          node: 'resource', color: resourcecolorarray[csvData[i].resource_name], level: 0, id: resourceidarray[csvData[i].resource_name], resource_id: resourceidarray[csvData[i].resource_name], text: resourcefilterdata[0].resource_name, start_date: earliest, end_date: latest, open: false
         })
 
       jQuery.each(resourcefilterdata, function (j, val) {
@@ -621,7 +703,7 @@ jQuery.each(csvData, function (i, val) {
             latest = new Date(Math.max.apply(null, enddates));
             resource_consolidation_view.push(
               {
-                node: 'country', level: 1, id: resourceidarray[csvData[i].resource_name].toString() + "00" + countryidarray[val["country_name"]].toString(), country_id: countryidarray[val["country_name"]], resource_id: resourceidarray[csvData[i].resource_name], text: val["country_name"], start_date: earliest, end_date: latest, isAlreadyLive: "false", parent: resourceidarray[csvData[i].resource_name], open: false
+                node: 'country', color: countrycolorarray[val["country_name"]], level: 1, id: resourceidarray[csvData[i].resource_name].toString() + "00" + countryidarray[val["country_name"]].toString(), country_id: countryidarray[val["country_name"]], resource_id: resourceidarray[csvData[i].resource_name], text: val["country_name"], start_date: earliest, end_date: latest, isAlreadyLive: "false", parent: resourceidarray[csvData[i].resource_name], open: false
               })
 
             jQuery.each(countryfilterdata, function (k, val) {
@@ -631,7 +713,7 @@ jQuery.each(csvData, function (i, val) {
 
                   resource_consolidation_view.push(
                     {
-                      node: 'project', level: 2, id: resourceidarray[csvData[i].resource_name].toString() + "00" + countryidarray[val["country_name"]].toString() + "00" + projectidarray[val["project_name"]].toString(), country_id: countryidarray[val["country_name"]], resource_id: resourceidarray[csvData[i].resource_name], project_id: projectidarray[val["project_name"]], text: val["project_name"], start_date: val["start_date"], end_date: val["end_date"], isAlreadyLive: "false", parent: resourceidarray[csvData[i].resource_name].toString() + "00" + countryidarray[val["country_name"]].toString()
+                      node: 'project', color: projectcolorarray[val["project_name"]], level: 2, id: resourceidarray[csvData[i].resource_name].toString() + "00" + countryidarray[val["country_name"]].toString() + "00" + projectidarray[val["project_name"]].toString(), country_id: countryidarray[val["country_name"]], resource_id: resourceidarray[csvData[i].resource_name], project_id: projectidarray[val["project_name"]], text: val["project_name"], start_date: val["start_date"], end_date: val["end_date"], isAlreadyLive: "false", parent: resourceidarray[csvData[i].resource_name].toString() + "00" + countryidarray[val["country_name"]].toString()
                     })
                 }
               }
@@ -652,15 +734,15 @@ console.log(resource_consolidation_view);
 country_consolidation_view = { "data": (country_consolidation_view) }
 project_consolidation_view = { "data": (project_consolidation_view) }
 resource_consolidation_view = { "data": (resource_consolidation_view) }
-var jdeProjectId; var gssProjectId;
-for (var i in project_consolidation_view.data) {
-  var task = project_consolidation_view.data[i];
-  if (task.text == "JDE") {
-    jdeProjectId = task.project_id;
-  } else if (task.text == "GSS") {
-    gssProjectId = task.project_id;
-  }
-}
+// var jdeProjectId; var gssProjectId;
+// for (var i in project_consolidation_view.data) {
+//   var task = project_consolidation_view.data[i];
+//   if (task.text == "JDE") {
+//     jdeProjectId = task.project_id;
+//   } else if (task.text == "GSS") {
+//     gssProjectId = task.project_id;
+//   }
+// }
 tasks = project_consolidation_view
 
 
@@ -682,4 +764,4 @@ for (var i in resource_list) {
 }
 gantt.init("gantt_here");
 gantt.parse(tasks);
-changeColor( '#655f61')
+changeColor('#655f61')
