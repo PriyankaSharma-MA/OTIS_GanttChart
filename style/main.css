@@ -368,3 +368,20 @@ font-size: 12px;
 	transform: translate3d(0,0,0);
 	transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);
 }
+
+.historycontainer{
+
+    float: left;
+    margin-left: 275px;   
+    position: absolute;
+    top: 65px;
+    border: 1px solid #D5D5D5;
+    background-color: #ffffff;
+    color: #222222;
+	border-radius:3px;
+	width:50%;
+	display:none;
+	z-index: 1000;
+    /* background:url(http://images3.wikia.nocookie.net/__cb20110703044636/umemaro3d/images/b/b4/Bg-white-50.png);*/
+
+	}

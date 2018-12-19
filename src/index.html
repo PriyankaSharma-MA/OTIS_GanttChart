@@ -15,7 +15,8 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <link rel="stylesheet" href="style/main.css" />
-
+  <!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script> -->
 </head>
 
 <body>
@@ -26,13 +27,14 @@
   <md-toolbar style="width: 100%; height: 100%" class="md-body-1">
     <md-content class="md-padding" layout-xs="column" layout="row" style="width: 100%; height: 100%; padding: 20px;">
       <div class="container" id="" style='width: 100%;'>
+        
         <div class="sidebyside">
           <ul class="nav nav-tabs" id="myTab">
             <li class="active">
-              <a data-target="#gantt_view" data-toggle="tab" onclick="toggleView('project_consolidation_view',0);">Program view</a>
+              <a data-target="#gantt_view" data-toggle="tab" onclick="toggleView('program_consolidation_view',0);">Program view</a>
             </li>
             <li>
-              <a data-target="#gantt_view" data-toggle="tab" onclick="toggleView('country_consolidation_view',0);">Region view</a>
+              <a data-target="#gantt_view" data-toggle="tab" onclick="toggleView('region_consolidation_view',0);">Region view</a>
             </li>
             <li>
               <a data-target="#gantt_view" data-toggle="tab" onclick="toggleView('resource_consolidation_view',0);">Resource view</a>
@@ -42,16 +44,15 @@
             </li> -->
           </ul>
         </div>
-
         <div style="margin-top: 8px" class="sidebyside  ui-inputtext" id="gantt_selection_criteria">
-          <select id="project_consolidation_view" onchange="changeSelectedProject(this.value);">
-            <option value="0" selected="selected">All</option>
+          <select id="program_consolidation_view" onchange="changeSelectedProject(this.value);">
+            <option value="0" selected="selected">All program</option>
           </select>
-          <select id="country_consolidation_view" onchange="changeSelectedCountry(this.value);" style="display:none;">
-            <option value="0" selected="selected">All</option>
+          <select id="region_consolidation_view" onchange="changeSelectedRegion(this.value);">
+            <option value="0" selected="selected">All region</option>
           </select>
-          <select id="resource_consolidation_view" onchange="changeSelectedResource(this.value);" style="display:none;">
-            <option value="0" selected="selected">All</option>
+          <select id="resource_consolidation_view" onchange="changeSelectedResource(this.value);">
+            <option value="0" selected="selected">All resource</option>
           </select>
         </div>
         <!-- <div class="sidebyside" style="width:35%;margin-top: 19px">
@@ -59,9 +60,16 @@
         </div> -->
 
         <div class="sidebyside" ng-controller="myCtrl" style="margin-top:10px;float:right">
+
+          <div class="upload" style="float:left;margin-right: 15px">
+          
+            <a class="download" onclick="showHistory();">
+              History </a>
+
+          </div>
           <div class="upload" style="float:left;margin-right: 15px">
             Upload
-            <input type="file" class="hide_file" onchange="handleFileSelect();" file-model="myFile" accept=".csv" style="display:inline;width:195px"
+            <input type="file" class="hide_file" onchange="handleFileSelect();" file-model="myFile" accept=".xlsx" style="display:inline;"
             />
           </div>
 
@@ -71,7 +79,11 @@
           </div>
 
         </div>
-
+        <div id="historyDiv" class="historycontainer">
+            <table id="historyTable">
+            
+            </table>
+          </div>
       </div>
       <div id="gantt_view" style="height: 90%">
         <div id="gantt_here" style='height: 100%; margin: 1px 0px 20px 0px;'>
@@ -110,17 +122,18 @@
         </div>
         <div id="map"></div>
       </div>
+    
     </md-content>
   </md-toolbar>
-  <script> $(document).ready(function () {
+  <!-- <script> $(document).ready(function () {
       //  var APIPath = "http://35.188.173.90/ganttChart/CSV/";
       //  jQuery(document).ready(function($) {
-      initMap();
+     // initMap();
       //});
-    });</script>
+    });</script> -->
 
 
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsnBvhur6SXaxP3rSS_2J6nqjIaTdhh6Q&callback=initMap">
-  </script>
+  <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDsnBvhur6SXaxP3rSS_2J6nqjIaTdhh6Q&callback=initMap">
+  </script> -->
 
 </body>
