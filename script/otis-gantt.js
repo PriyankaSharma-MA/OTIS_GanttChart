@@ -5,6 +5,10 @@ var APIPath = "http://localhost:63562/api/CSV/";
 $(document).ready(function () {
   getExcelData('Roadmap.xlsx')
 });
+function hidehistory()
+{
+  $("#historyDiv").hide();
+}
 function showHistory()
 {
   //alert('hi')
@@ -26,17 +30,23 @@ function showHistory()
 function createHistoryData(data)
 {
  // alert(JSON.stringify(data));
-   var str="<th>File name</th> <th>Download</th> <th>Apply</th>";
+   var str="<thead><th>File name (DDMMYYYY HHMMSS)</th> <th  style='width: 20%;'></th> <th><a class='link'  onclick=hidehistory() ><img class='cancel'  src='../assets/cancel.png' /></a></th></thead><tbody>";
   for(var i=0;i<data.length;i++)
   {
-    str=str+"<tr>";
+    if(i==0)
+    {
+      str=str+"<tr class='selectedrow'>";
+    }else{
+      str=str+"<tr>";
+    }
+  
     str=str+"<td>"+data[i].file_name + "</td>";
-    str=str+"<td>"+ "<a class='upload' href="+FolderPath +data[i].file_name+">Download</a></td>";
-    str=str+"<td>"+ "<a onclick=getExcelData('"+data[i].file_name +"') class='upload' >Apply</a></td>";
+    str=str+"<td>"+ "<a class='link' href="+FolderPath +data[i].file_name+">Download</a></td>";
+    str=str+"<td>"+ "<a class='link'  onclick=getExcelData('"+data[i].file_name +"') >Apply</a></td>";
     str =str +"</tr>";
 
   }
-
+  str =str +"</tbody>";
   document.getElementById('historyTable').innerHTML=str
 }
 function getRandomColor() {
@@ -198,7 +208,7 @@ function handleFileSelect() {
           // Handle the response on success
           // alert(JSON.stringify(data));
           //location.reload();
-          getExcelData(data)
+          getExcelData('Roadmap.xlsx')
         }
       });
 

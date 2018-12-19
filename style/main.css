@@ -372,16 +372,68 @@ font-size: 12px;
 .historycontainer{
 
     float: left;
-    margin-left: 275px;   
+    margin-left: 780px;   
     position: absolute;
     top: 65px;
     border: 1px solid #D5D5D5;
     background-color: #ffffff;
     color: #222222;
 	border-radius:3px;
-	width:50%;
+	width:30%;
 	display:none;
 	z-index: 1000;
     /* background:url(http://images3.wikia.nocookie.net/__cb20110703044636/umemaro3d/images/b/b4/Bg-white-50.png);*/
 
+	}
+	#historyTable
+	{
+		width: 100%;
+		/*margin: 5px 10px 5px 10px;*/
+       box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important
+	}
+	thead {
+		color: #666!important;
+		font-family: Roboto!important;
+		font-weight: bolder!important;
+		font-size: 11px!important;
+		font-family: Roboto!important;
+	background: linear-gradient(to bottom,#f6f7f9 0,#ebedf0 100%);
+	}
+	tbody{
+		color: #666!important;
+	/*	font-weight: 100!important;*/
+		font-family: Roboto!important;
+		font-size:11px;
+	}
+	tbody td{
+		padding: 1px 1px 1px 1px;
+	  }
+
+	  tbody tr {
+		border-bottom: 1px solid #efefef;
+	}​
+	
+	tbody tr:last-child { 
+		border-bottom: none; 
+	}
+	  /* tbody tr:nth-child(odd){
+		background-color: #d7d7d7;
+		color: black;
+	  } */
+	  .link
+	  {
+		  text-decoration:underline;
+	  }
+	  a.link:hover {
+		color: #337ab7;
+		text-decoration: underline;
+	}
+    .cancel{
+	float: right;
+	margin-right: 12px;
+	height:12px;
+	cursor: pointer;
+	}
+	.selectedrow{
+		background-color: #d7d7d7;
 	}
