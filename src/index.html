@@ -27,63 +27,64 @@
   <md-toolbar style="width: 100%; height: 100%" class="md-body-1">
     <md-content class="md-padding" layout-xs="column" layout="row" style="width: 100%; height: 100%; padding: 20px;">
       <div class="container" id="" style='width: 100%;'>
-        
-        <div class="sidebyside">
+
+        <div class="sidebyside" style="margin-right: 75px;">
           <ul class="nav nav-tabs" id="myTab">
             <li class="active">
-              <a data-target="#gantt_view" data-toggle="tab" onclick="toggleView('program_consolidation_view',0);">Program view</a>
+              <a data-target="#gantt_view" data-toggle="tab" onclick="toggleView('program_consolidation_view',0);">Program View</a>
             </li>
             <li>
-              <a data-target="#gantt_view" data-toggle="tab" onclick="toggleView('region_consolidation_view',0);">Region view</a>
+              <a data-target="#gantt_view" data-toggle="tab" onclick="toggleView('region_consolidation_view',0);">Region View</a>
             </li>
             <li>
-              <a data-target="#gantt_view" data-toggle="tab" onclick="toggleView('resource_consolidation_view',0);">Resource view</a>
+              <a data-target="#gantt_view" data-toggle="tab" onclick="toggleView('resource_consolidation_view',0);">Resource View</a>
             </li>
             <!-- <li>
               <a data-target="#gantt_view" data-toggle="tab" onclick="toggleView('map_view',0);">Map view</a>
             </li> -->
           </ul>
         </div>
-        <div style="margin-top: 8px" class="sidebyside  ui-inputtext" id="gantt_selection_criteria">
-          <select id="program_consolidation_view" onchange="changeSelectedProject(this.value);">
-            <option value="0" selected="selected">All program</option>
+        <div style="margin-top: 6px" class="sidebyside  ui-inputtext" id="gantt_selection_criteria">
+          <select id="program_consolidation_view" onchange="changeSelectedProject(this);">
+            <option value="0" selected="selected">All Program</option>
           </select>
-          <select id="region_consolidation_view" onchange="changeSelectedRegion(this.value);">
-            <option value="0" selected="selected">All region</option>
+          <select id="region_consolidation_view" onchange="changeSelectedRegion(this);">
+            <option value="0" selected="selected">All Region</option>
           </select>
-          <select id="resource_consolidation_view" onchange="changeSelectedResource(this.value);">
-            <option value="0" selected="selected">All resource</option>
+          <select id="resource_consolidation_view" onchange="changeSelectedResource(this);">
+            <option value="0" selected="selected">All Resource</option>
           </select>
         </div>
         <!-- <div class="sidebyside" style="width:35%;margin-top: 19px">
           <input type="color" value="#655f61" id="colorWell" title="Change color">
         </div> -->
 
-        <div class="sidebyside" ng-controller="myCtrl" style="margin-top:10px;float:right">
-
-          <div class="upload" style="float:left;margin-right: 15px">
-          
-            <a class="download" onclick="showHistory();">
-              History </a>
-
-          </div>
-          <div class="upload" style="float:left;margin-right: 15px">
+        <div class="sidebyside" ng-controller="myCtrl" style="margin-top:9px;float:right">
+          <div class="upload" style="float:left;margin-right: 8px">
             Upload
             <input type="file" class="hide_file" onchange="handleFileSelect();" file-model="myFile" accept=".xlsx" style="display:inline;"
             />
           </div>
+          <div class="upload" style="float:left;margin-right: 8px">
+              <a class="download" href="http://35.188.173.90/ganttChart/CSV/Template/template.xlsx">
+                Template </a>
+            </div>
+          <div class="upload" style="float:right;">
 
-          <div class="upload" style="float:right">
-            <a class="download" href="http://35.188.173.90/ganttChart/CSV/template.csv">
-              Template </a>
+            <a class="download" onclick="showHistory();">
+              History </a>
+
           </div>
+
+
+        
 
         </div>
         <div id="historyDiv" class="historycontainer">
-            <table id="historyTable">
-            
-            </table>
-          </div>
+          <table id="historyTable">
+
+          </table>
+        </div>
       </div>
       <div id="gantt_view" style="height: 90%">
         <div id="gantt_here" style='height: 100%; margin: 1px 0px 20px 0px;'>
@@ -122,7 +123,7 @@
         </div>
         <div id="map"></div>
       </div>
-    
+
     </md-content>
   </md-toolbar>
   <!-- <script> $(document).ready(function () {

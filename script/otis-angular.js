@@ -337,7 +337,7 @@ otisApp.controller('OtisCtrl', ['$scope', function ($scope) {
     // selQuarterEndMonth = !selQuarterEndMonth ? new Date().getMonth() + 1 : selQuarterEndMonth;
     var isJde = false;
     var isDynamics = false;
-    angular.forEach(country_consolidation_view.data, function (task, index) {
+    angular.forEach(program_consolidation_view.data, function (task, index) {
       // var task = country_consolidation_view.data[i];
       if (task.country_id == selectedCountryId && task.parent) {
         var projectEndDate = typeof(task.end_date) == 'string' ? new Date( task.end_date.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3") ): task.end_date;
