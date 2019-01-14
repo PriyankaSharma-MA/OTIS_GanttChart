@@ -4,6 +4,10 @@
 
 export const environment = {
   production: false
+  ,apiurl:"http://localhost:63562/api/CSV/",
+  siteurl:"http://localhost:63562/api/CSV/"
+  // ,apiurl:"http://35.188.173.90/ganttChart/api/CSV/",
+  // siteurl:"http://35.188.173.90/ganttChart/api/CSV/"
 };
 
 /*

@@ -507,3 +507,13 @@ font-size: 12px;
 		position: unset;
 
 	}
+	tbody td {
+		padding: 1px 1px 1px 1px;
+		padding-left: 5px;
+		padding-right: 3px;
+	}
+	thead th {
+		padding: 1px 1px 1px 1px;
+		padding-left: 5px;
+		padding-right: 3px;
+	}

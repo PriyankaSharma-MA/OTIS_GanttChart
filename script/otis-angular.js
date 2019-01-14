@@ -338,8 +338,8 @@ otisApp.controller('OtisCtrl', ['$scope', function ($scope) {
     var isJde = false;
     var isDynamics = false;
     angular.forEach(program_consolidation_view.data, function (task, index) {
-       var task = program_consolidation_view.data[i];
-      alert(task)
+       //var task = program_consolidation_view.data[i];
+      //alert(task)
       if (task.country_id == selectedCountryId && task.parent) {
         var projectEndDate = typeof(task.end_date) == 'string' ? new Date( task.end_date.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3") ): task.end_date;
         var projectYear = projectEndDate.getFullYear();

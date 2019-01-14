@@ -1,11 +1,11 @@
 var FolderPath = "http://35.188.173.90/ganttChart/CSV/CurrentFile/";
 var ArchiveFolderPath = "http://35.188.173.90/ganttChart/CSV/Archive/";
-var APIPath = "http://35.188.173.90/ganttChart/api/CSV/";
+//var APIPath = "http://35.188.173.90/ganttChart/api/CSV/";
+var filterData="";
 
-
-// var FolderPath = "http://localhost:63562/CSV/CurrentFile/";
-// var ArchiveFolderPath = "http://localhost:63562/CSV/Archive/";
-// var APIPath = "http://localhost:63562/api/CSV/";
+//var FolderPath = "http://localhost:63562/CSV/CurrentFile/";
+//var ArchiveFolderPath = "http://localhost:63562/CSV/Archive/";
+ var APIPath = "http://localhost:63562/api/CSV/";
 
 var selectedviewType = "program_consolidation_view", countryData; var project_wise_data; var tasks;
 var selectedprogramId = 0; var selectedregionId = 0; var selectedresourceId = 0; var selectedcountryId = 0;
@@ -21,9 +21,11 @@ resourcecolorarray = [];
 regioncolorarray = [];
 
 var roadMapData = "", colorData = "";
-$(document).ready(function () {
-  getExcelData('Roadmap.xlsx', false)
-});
+
+function returnValue()
+{
+  return projectidarray
+}
 function hidehistory() {
   $("#historyDiv").hide();
 }
@@ -46,7 +48,7 @@ function showHistory() {
 }
 function createHistoryData(data) {
   // alert(JSON.stringify(data));
-  var str = "<thead><th>File name (DDMMYYYY HHMMSS)</th> <th  style='width: 20%;'></th> <th><a class='link'  onclick=hidehistory() ><img class='cancel'  src='assets/cancel.png' /></a></th></thead><tbody>";
+  var str = "<thead><th>File name (MMDDYYYY HHMMSS)</th> <th  style='width: 20%;'></th> <th><a class='link'  onclick=hidehistory() ><img class='cancel'  src='assets/cancel.png' /></a></th></thead><tbody>";
   for (var i = 0; i < data.length; i++) {
     if (i == 0) {
       str = str + "<tr class='selectedrow'>";
@@ -65,7 +67,8 @@ function createHistoryData(data) {
 }
 
 function handleFileSelect() {
-
+  //alert('hi')
+  $("#historyDiv").hide();
   let input = document.querySelector('input[type="file"]');
   if (input.value == "") {
     //alert("choose file");
@@ -89,19 +92,7 @@ function handleFileSelect() {
         data: data,
         processData: false,
         success: function (data) {
-          // Handle the response on success
-          // alert(JSON.stringify(data));
-          //location.reload();
-          projectidarray = [];
-          countryidarray = [];
-          resourceidarray = [];
-          regionidarray = [];
-
-          projectcolorarray = [];
-          countrycolorarray = [];
-          resourcecolorarray = [];
-          regioncolorarray = [];
-          getExcelData('Roadmap.xlsx', false)
+          location.reload();
         }
       });
 
@@ -170,8 +161,8 @@ gantt.config.columns = [
 ];
 
 function applyfilter() {
-  var filterData = "";
-  filterData = query(csvData, [{ key: 'project_name', value: selectedprogramText }, { key: 'region_name', value: selectedregionText }, { key: 'resource1_name', value: selectedresourceText }])
+  //var filterData = "";
+ // filterData = query(csvData, [{ key: 'program_name', value: selectedprogramText }, { key: 'region_name', value: selectedregionText }, { key: 'resource_name', value: selectedresourceText }])
   createGanttChart(filterData);
 }
 function changeSelectedProject(selectionId) {
@@ -237,33 +228,25 @@ function changeColor(color) {
 function toggleView(viewType, selectionId) {
   selectedviewType = viewType;
   if (viewType == 'program_consolidation_view') {
-    // $("#region_consolidation_view").hide(); $("#program_consolidation_view").show(); $("#resource_consolidation_view").hide();
-    $("#map_view").hide(); $("#gantt_selection_criteria").show();
+
+    $("#gantt_selection_criteria").show();
     $("#gantt_view").show();
     $("#program_consolidation_view").val(selectionId);
     return changeSelectedProject(selectionId);
   } else if (viewType == 'region_consolidation_view') {
-    //$("#region_consolidation_view").show(); $("#program_consolidation_view").hide(); $("#resource_consolidation_view").hide();
-    $("#map_view").hide(); $("#gantt_selection_criteria").show();
+
+    $("#gantt_selection_criteria").show();
     $("#gantt_view").show();
     $("#region_consolidation_view").val(selectionId);
     return changeSelectedRegion(selectionId);
   } else if (viewType == 'resource_consolidation_view') {
-    //$("#resource_consolidation_view").show(); $("#program_consolidation_view").hide(); $("#region_consolidation_view").hide();
-    $("#map_view").hide(); $("#gantt_selection_criteria").show();
+
+    $("#gantt_selection_criteria").show();
     $("#gantt_view").show();
     $("#resource_consolidation_view").val(selectionId);
     return changeSelectedResource(selectionId);
-  } else if (viewType == 'map_view') {
-    $("#map_view").show(); $("#gantt_selection_criteria").hide();
-    $("#region_consolidation_view").hide(); $("#program_consolidation_view").hide();
-    $("#gantt_view").hide();
-
-    google.maps.event.trigger(map, 'resize');
-  }
+  } 
 }
-
-
 
 // Timeline JS
 
@@ -378,24 +361,28 @@ function clearMarkers() {
   }
   markers = [];
 }
-function getExcelData(filename, IsApplyFilter) {
-  // alert(filename)
- 
+function getAllRoadMapData(result,IsApplyFilter)
+{
+ // alert('hi');
+  roadMapData = result[0].excelRoadMapdata;
+  colorData = result[0].excelColordata;
+  csvData = roadMapData;
+  $("#historyDiv").hide();
+  filterData=roadMapData
+  createGanttChart(roadMapData, IsApplyFilter)
 
+}
+function uploadSharePointFile() {
   jQuery.ajax({
-    url: APIPath + 'GetAllExcelData?filename=' + filename, // Specify the path to your API service
-    type: 'GET',              // Assuming creation of an entity
+    url: APIPath + 'uploadSharePointFile', // Specify the path to your API service
+    type: 'POST',              // Assuming creation of an entity
     //contentType: false,        // To force multipart/form-data
     contentType: "application/x-www-form-urlencoded",
     dataType: "JSON",
-    // data: {"filename":"sampleCSV.csv"},
     processData: false,
     success: function (result) {
-      roadMapData = result[0].excelRoadMapdata;
-      colorData = result[0].excelColordata;
-      csvData = roadMapData;
       $("#historyDiv").hide();
-      createGanttChart(roadMapData, IsApplyFilter)
+      location.reload();
 
     }
   });
@@ -407,21 +394,10 @@ function uploadHistoryFile(filename) {
     //contentType: false,        // To force multipart/form-data
     contentType: "application/x-www-form-urlencoded",
     dataType: "JSON",
-    // data: {"filename":"sampleCSV.csv"},
     processData: false,
     success: function (result) {
-
       $("#historyDiv").hide();
-      projectidarray = [];
-      countryidarray = [];
-      resourceidarray = [];
-      regionidarray = [];
-
-      projectcolorarray = [];
-      countrycolorarray = [];
-      resourcecolorarray = [];
-      regioncolorarray = [];
-      getExcelData('Roadmap.xlsx', false);
+      location.reload();
 
     }
   });
@@ -435,16 +411,14 @@ function formatDate(date) {
   if (month.length < 2) month = '0' + month;
   if (day.length < 2) day = '0' + day;
 //alert([day, month, year].join('/'));
- return [day, month, year].join('/');
+ return [month, day, year].join('/');
 }
 function createGanttChart(csvData, IsApplyFilter) {
-  //  alert(IsApplyFilter);
-  console.log('colorcode');
-  console.log(colorData);
+
   program_consolidation_view = []
   region_consolidation_view = []
   resource_consolidation_view = []
-
+  filterData=csvData;
 
 
   projectid = 0, countryid = 0, resourceid = 0; regionid = 0;
@@ -457,36 +431,36 @@ function createGanttChart(csvData, IsApplyFilter) {
   var defaultcolor="#655f61"
  // var nodecolor = "#655f61";
   var startdates = null, enddates = null, earliest = null, latest = null;
-  console.log('filter data')
-  console.log(csvData)
+  //console.log('filter data')
+  //console.log(csvData)
   jQuery.each(csvData, function (i, programval) {
-    if (!dupesproject[csvData[i].project_name]) {
+    if (!dupesproject[csvData[i].program_name]) {
 
-      dupesproject[csvData[i].project_name] = true;
+      dupesproject[csvData[i].program_name] = true;
       {
         dupescountry = [];
         nodecolor=defaultcolor;
-        colorfilterdata=colorquery(colorData, [{ key: 'project_name', value: csvData[i].project_name }])
+        colorfilterdata=colorquery(colorData, [{ key: 'program_name', value: csvData[i].program_name }])
         if(colorfilterdata.length>0)
         {
           nodecolor="#"+colorfilterdata[0].project_color.substring(2,colorfilterdata[0].project_color.length);      
         } 
-        if (projectidarray[csvData[i].project_name] == undefined) {
-          projectidarray[csvData[i].project_name] = projectid + 1
-          projectcolorarray[csvData[i].project_name] = nodecolor;
+        if (projectidarray[csvData[i].program_name] == undefined) {
+          projectidarray[csvData[i].program_name] = projectid + 1
+          projectcolorarray[csvData[i].program_name] = nodecolor;
           projectid = projectid + 1;
         }
 
-        projectfilterdata = query(csvData, [{ key: 'project_name', value: csvData[i].project_name }])
+        projectfilterdata = query(csvData, [{ key: 'program_name', value: csvData[i].program_name }])
         startdates = projectfilterdata.map(function (x) { return new Date(getdate(x["start_date"])); })
         enddates = projectfilterdata.map(function (x) { return new Date(getdate(x["end_date"])); })
-        //console.log(projectfilterdata)
+        ////console.log(projectfilterdata)
         earliest = new Date(Math.min.apply(null, startdates));
         latest = new Date(Math.max.apply(null, enddates));
 
         program_consolidation_view.push(
           {
-            node: 'program', F_Start_Date: formatDate(earliest.toLocaleDateString()),F_End_Date: formatDate(latest.toLocaleDateString()),color: projectcolorarray[csvData[i].project_name], level: 0, id: projectidarray[csvData[i].project_name], project_id: projectidarray[csvData[i].project_name], text: projectfilterdata[0].project_name, start_date: earliest, end_date: latest, open: false
+            node: 'program', F_Start_Date: formatDate(earliest.toLocaleDateString()),F_End_Date: formatDate(latest.toLocaleDateString()),color: projectcolorarray[csvData[i].program_name], level: 0, id: projectidarray[csvData[i].program_name], project_id: projectidarray[csvData[i].program_name], text: projectfilterdata[0].program_name, start_date: earliest, end_date: latest, open: false
           })
 
         jQuery.each(projectfilterdata, function (j, Countryval) {
@@ -494,10 +468,10 @@ function createGanttChart(csvData, IsApplyFilter) {
             dupescountry[Countryval["country_name"]] = true;
             {
               dupesresource = []
-              countryfilterdata = query(csvData, [{ key: 'project_name', value: csvData[i].project_name }, { key: 'country_name', value: Countryval["country_name"] }])
+              countryfilterdata = query(csvData, [{ key: 'program_name', value: csvData[i].program_name }, { key: 'country_name', value: Countryval["country_name"] }])
               startdates = countryfilterdata.map(function (x) { return new Date(getdate(x["start_date"])); })
               enddates = countryfilterdata.map(function (x) { return new Date(getdate(x["end_date"])); })
-              //console.log(projectfilterdata)
+              ////console.log(projectfilterdata)
               earliest = new Date(Math.min.apply(null, startdates));
               latest = new Date(Math.max.apply(null, enddates));
               if (countryidarray[Countryval["country_name"]] == undefined) {
@@ -510,29 +484,29 @@ function createGanttChart(csvData, IsApplyFilter) {
 
               program_consolidation_view.push(
                 {
-                  node: 'country', F_Start_Date: formatDate(earliest.toLocaleDateString()),F_End_Date: formatDate(latest.toLocaleDateString()),color: projectcolorarray[csvData[i].project_name], level: 1, id: projectidarray[csvData[i].project_name].toString() + "00" + countryidarray[Countryval["country_name"]].toString(), country_id: countryidarray[Countryval["country_name"]], project_id: projectidarray[csvData[i].project_name].toString(), text: Countryval["country_name"], start_date: earliest, end_date: latest, isAlreadyLive: "false", parent: projectidarray[csvData[i].project_name], open: false
+                  node: 'country', F_Start_Date: formatDate(earliest.toLocaleDateString()),F_End_Date: formatDate(latest.toLocaleDateString()),color: projectcolorarray[csvData[i].program_name], level: 1, id: projectidarray[csvData[i].program_name].toString() + "00" + countryidarray[Countryval["country_name"]].toString(), country_id: countryidarray[Countryval["country_name"]], project_id: projectidarray[csvData[i].program_name].toString(), text: Countryval["country_name"], start_date: earliest, end_date: latest, isAlreadyLive: "false", parent: projectidarray[csvData[i].program_name], open: false
                 })
 
               jQuery.each(countryfilterdata, function (k, resourceval) {
-                if (!dupesresource[resourceval["resource1_name"]]) {
-                  dupesresource[resourceval["resource1_name"]] = true;
+                if (!dupesresource[resourceval["resource_name"]]) {
+                  dupesresource[resourceval["resource_name"]] = true;
                   {
                     nodecolor=defaultcolor;
-                    colorfilterdata=colorquery(colorData, [{ key: 'resource_name', value: resourceval["resource1_name"] }])
+                    colorfilterdata=colorquery(colorData, [{ key: 'resource_name', value: resourceval["resource_name"] }])
                     if(colorfilterdata.length>0)
                     {
                       nodecolor="#"+colorfilterdata[0].resource_color.substring(2,colorfilterdata[0].resource_color.length);      
                     } 
-                    if (resourceidarray[resourceval["resource1_name"]] == undefined) {
-                      resourceidarray[resourceval["resource1_name"]] = resourceid + 1
+                    if (resourceidarray[resourceval["resource_name"]] == undefined) {
+                      resourceidarray[resourceval["resource_name"]] = resourceid + 1
 
-                      resourcecolorarray[resourceval["resource1_name"]] = nodecolor;
+                      resourcecolorarray[resourceval["resource_name"]] = nodecolor;
                       resourceid = resourceid + 1;
                     }
 
                     program_consolidation_view.push(
                       {
-                        node: 'resource',F_Start_Date: formatDate(earliest.toLocaleDateString()),F_End_Date: formatDate(latest.toLocaleDateString()), color: resourcecolorarray[resourceval["resource1_name"]], level: 2, id: projectidarray[csvData[i].project_name].toString() + "00" + countryidarray[Countryval["country_name"]].toString() + "00" + resourceidarray[resourceval["resource1_name"]].toString(), country_id: countryidarray[Countryval["country_name"]], project_id: projectidarray[csvData[i].project_name].toString(), resource_id: resourceidarray[resourceval["resource1_name"]], text: resourceval["resource1_name"], start_date: resourceval["start_date"], end_date: resourceval["end_date"], isAlreadyLive: "false", parent: projectidarray[csvData[i].project_name].toString() + "00" + countryidarray[Countryval["country_name"]].toString()
+                        node: 'resource',F_Start_Date: formatDate(earliest.toLocaleDateString()),F_End_Date: formatDate(latest.toLocaleDateString()), color: resourcecolorarray[resourceval["resource_name"]], level: 2, id: projectidarray[csvData[i].program_name].toString() + "00" + countryidarray[Countryval["country_name"]].toString() + "00" + resourceidarray[resourceval["resource_name"]].toString(), country_id: countryidarray[Countryval["country_name"]], project_id: projectidarray[csvData[i].program_name].toString(), resource_id: resourceidarray[resourceval["resource_name"]], text: resourceval["resource_name"], start_date: resourceval["start_date"], end_date: resourceval["end_date"], isAlreadyLive: "false", parent: projectidarray[csvData[i].program_name].toString() + "00" + countryidarray[Countryval["country_name"]].toString()
                       })
                   }
                 }
@@ -547,9 +521,9 @@ function createGanttChart(csvData, IsApplyFilter) {
     }
   });
 
-  console.log(projectidarray);
-  console.log(countryidarray);
-  console.log(resourceidarray);
+  //console.log(projectidarray);
+  //console.log(countryidarray);
+  //console.log(resourceidarray);
 
   dupesproject = [];
   dupescountry = [];
@@ -575,7 +549,7 @@ function createGanttChart(csvData, IsApplyFilter) {
         regionfilterdata = query(csvData, [{ key: 'region_name', value: csvData[l].region_name }])
         startdates = regionfilterdata.map(function (x) { return new Date(getdate(x["start_date"])); })
         enddates = regionfilterdata.map(function (x) { return new Date(getdate(x["end_date"])); })
-        //console.log(projectfilterdata)
+        ////console.log(projectfilterdata)
         earliest = new Date(Math.min.apply(null, startdates));
         latest = new Date(Math.max.apply(null, enddates));
         region_consolidation_view.push(
@@ -587,11 +561,11 @@ function createGanttChart(csvData, IsApplyFilter) {
             dupescountry[csvData[i].country_name] = true;
             {
               dupesproject = [];
-              //  projectidarray[csvData[i].project_name] = i + 1;
+              //  projectidarray[csvData[i].program_name] = i + 1;
               countryfilterdata = query(csvData, [{ key: 'region_name', value: csvData[l].region_name }, { key: 'country_name', value: countryval["country_name"] }])
               startdates = countryfilterdata.map(function (x) { return new Date(getdate(x["start_date"])); })
               enddates = countryfilterdata.map(function (x) { return new Date(getdate(x["end_date"])); })
-              //console.log(projectfilterdata)
+              ////console.log(projectfilterdata)
               earliest = new Date(Math.min.apply(null, startdates));
               latest = new Date(Math.max.apply(null, enddates));
               region_consolidation_view.push(
@@ -600,29 +574,29 @@ function createGanttChart(csvData, IsApplyFilter) {
                 })
 
               jQuery.each(countryfilterdata, function (j, programval) {
-                if (!dupesproject[programval["project_name"]]) {
-                  dupesproject[programval["project_name"]] = true;
+                if (!dupesproject[programval["program_name"]]) {
+                  dupesproject[programval["program_name"]] = true;
                   {
                     dupesresource = [];
-                    projectfilterdata = query(csvData, [{ key: 'region_name', value: csvData[l].region_name }, { key: 'country_name', value: countryval["country_name"] }, { key: 'project_name', value: programval["project_name"] }])
+                    projectfilterdata = query(csvData, [{ key: 'region_name', value: csvData[l].region_name }, { key: 'country_name', value: countryval["country_name"] }, { key: 'program_name', value: programval["program_name"] }])
                     startdates = projectfilterdata.map(function (x) { return new Date(getdate(x["start_date"])); })
                     enddates = projectfilterdata.map(function (x) { return new Date(getdate(x["end_date"])); })
-                    //console.log(projectfilterdata)
+                    ////console.log(projectfilterdata)
                     earliest = new Date(Math.min.apply(null, startdates));
                     latest = new Date(Math.max.apply(null, enddates));
                     region_consolidation_view.push(
                       {
-                        node: 'program',F_Start_Date: formatDate(earliest.toLocaleDateString()), F_End_Date: formatDate(latest.toLocaleDateString()),color: projectcolorarray[programval["project_name"]], level: 2, id: regionidarray[csvData[l].region_name].toString() + "00" + countryidarray[countryval["country_name"]].toString() + "00" + projectidarray[programval["project_name"]].toString(), region_id: regionidarray[csvData[l].region_name], country_id: countryidarray[countryval["country_name"]], project_id: projectidarray[programval["project_name"]], text: programval["project_name"], start_date: earliest, end_date: latest, isAlreadyLive: "false", parent: regionidarray[csvData[l].region_name] + "00" + countryidarray[countryval["country_name"]], open: false
+                        node: 'program',F_Start_Date: formatDate(earliest.toLocaleDateString()), F_End_Date: formatDate(latest.toLocaleDateString()),color: projectcolorarray[programval["program_name"]], level: 2, id: regionidarray[csvData[l].region_name].toString() + "00" + countryidarray[countryval["country_name"]].toString() + "00" + projectidarray[programval["program_name"]].toString(), region_id: regionidarray[csvData[l].region_name], country_id: countryidarray[countryval["country_name"]], project_id: projectidarray[programval["program_name"]], text: programval["program_name"], start_date: earliest, end_date: latest, isAlreadyLive: "false", parent: regionidarray[csvData[l].region_name] + "00" + countryidarray[countryval["country_name"]], open: false
                       })
 
                     jQuery.each(projectfilterdata, function (k, resourceval) {
-                      if (!dupesresource[resourceval["resource1_name"]]) {
-                        dupesresource[resourceval["resource1_name"]] = true;
+                      if (!dupesresource[resourceval["resource_name"]]) {
+                        dupesresource[resourceval["resource_name"]] = true;
 
                         {
                           region_consolidation_view.push(
                             {
-                              node: 'resource',F_Start_Date: formatDate(earliest.toLocaleDateString()), F_End_Date: formatDate(latest.toLocaleDateString()),color: resourcecolorarray[resourceval["resource1_name"]], level: 3, id: regionidarray[csvData[l].region_name].toString() + "00" + countryidarray[countryval["country_name"]].toString() + "00" + projectidarray[programval["project_name"]].toString() + "00" + resourceidarray[resourceval["resource1_name"]].toString(), region_id: regionidarray[csvData[l].region_name], country_id: countryidarray[val["country_name"]].toString(), project_id: projectidarray[val["project_name"]], resource_id: resourceidarray[resourceval["resource1_name"]], text: resourceval["resource1_name"], start_date: resourceval["start_date"], end_date: resourceval["end_date"], isAlreadyLive: "false", parent: regionidarray[csvData[l].region_name].toString() + "00" + countryidarray[countryval["country_name"]].toString() + "00" + projectidarray[programval["project_name"]].toString()
+                              node: 'resource',F_Start_Date: formatDate(earliest.toLocaleDateString()), F_End_Date: formatDate(latest.toLocaleDateString()),color: resourcecolorarray[resourceval["resource_name"]], level: 3, id: regionidarray[csvData[l].region_name].toString() + "00" + countryidarray[countryval["country_name"]].toString() + "00" + projectidarray[programval["program_name"]].toString() + "00" + resourceidarray[resourceval["resource_name"]].toString(), region_id: regionidarray[csvData[l].region_name], country_id: countryidarray[val["country_name"]].toString(), project_id: projectidarray[val["program_name"]], resource_id: resourceidarray[resourceval["resource_name"]], text: resourceval["resource_name"], start_date: resourceval["start_date"], end_date: resourceval["end_date"], isAlreadyLive: "false", parent: regionidarray[csvData[l].region_name].toString() + "00" + countryidarray[countryval["country_name"]].toString() + "00" + projectidarray[programval["program_name"]].toString()
                             })
                         }
                       }
@@ -637,7 +611,7 @@ function createGanttChart(csvData, IsApplyFilter) {
       }
     }
   });
-  console.log(regionidarray);
+  //console.log(regionidarray);
 
   dupesproject = [];
   dupescountry = [];
@@ -645,37 +619,37 @@ function createGanttChart(csvData, IsApplyFilter) {
   dupesregion = [];
 
   jQuery.each(csvData, function (i, val) {
-    if (!dupesresource[csvData[i].resource1_name]) {
-      dupesresource[csvData[i].resource1_name] = true;
+    if (!dupesresource[csvData[i].resource_name]) {
+      dupesresource[csvData[i].resource_name] = true;
       {
         dupesproject = [];
-        resourcefilterdata = query(csvData, [{ key: 'resource1_name', value: csvData[i].resource1_name }])
+        resourcefilterdata = query(csvData, [{ key: 'resource_name', value: csvData[i].resource_name }])
 
         startdates = resourcefilterdata.map(function (x) { return new Date(getdate(x["start_date"])); })
         enddates = resourcefilterdata.map(function (x) { return new Date(getdate(x["end_date"])); })
-        //console.log(projectfilterdata)
+        ////console.log(projectfilterdata)
         earliest = new Date(Math.min.apply(null, startdates));
         latest = new Date(Math.max.apply(null, enddates));
 
         resource_consolidation_view.push(
           {
-            node: 'resource', F_Start_Date: formatDate(earliest.toLocaleDateString()),F_End_Date: formatDate(latest.toLocaleDateString()),color: resourcecolorarray[csvData[i].resource1_name], level: 0, id: resourceidarray[csvData[i].resource1_name], resource_id: resourceidarray[csvData[i].resource1_name], text: resourcefilterdata[0].resource1_name, start_date: earliest, end_date: latest, open: false
+            node: 'resource', F_Start_Date: formatDate(earliest.toLocaleDateString()),F_End_Date: formatDate(latest.toLocaleDateString()),color: resourcecolorarray[csvData[i].resource_name], level: 0, id: resourceidarray[csvData[i].resource_name], resource_id: resourceidarray[csvData[i].resource_name], text: resourcefilterdata[0].resource_name, start_date: earliest, end_date: latest, open: false
           })
         jQuery.each(resourcefilterdata, function (k, programval) {
-          if (!dupesproject[programval["project_name"]]) {
-            dupesproject[programval["project_name"]] = true;
+          if (!dupesproject[programval["program_name"]]) {
+            dupesproject[programval["program_name"]] = true;
             {
 
               dupescountry = []
-              projectfilterdata = query(csvData, [{ key: 'resource1_name', value: csvData[i].resource1_name }, { key: 'project_name', value: programval["project_name"] }])
+              projectfilterdata = query(csvData, [{ key: 'resource_name', value: csvData[i].resource_name }, { key: 'program_name', value: programval["program_name"] }])
               startdates = projectfilterdata.map(function (x) { return new Date(getdate(x["start_date"])); })
               enddates = projectfilterdata.map(function (x) { return new Date(getdate(x["end_date"])); })
-              //console.log(projectfilterdata)
+              ////console.log(projectfilterdata)
               earliest = new Date(Math.min.apply(null, startdates));
               latest = new Date(Math.max.apply(null, enddates));
               resource_consolidation_view.push(
                 {
-                  node: 'program',F_Start_Date: formatDate(earliest.toLocaleDateString()),F_End_Date: formatDate(latest.toLocaleDateString()), color: projectcolorarray[programval["project_name"]], level: 1, id: resourceidarray[csvData[i].resource1_name].toString() + "00" + projectidarray[programval["project_name"]].toString(), resource_id: resourceidarray[csvData[i].resource1_name], project_id: projectidarray[programval["project_name"]], text: programval["project_name"], start_date: earliest, end_date: latest, isAlreadyLive: "false", parent: resourceidarray[csvData[i].resource1_name].toString(), open: false
+                  node: 'program',F_Start_Date: formatDate(earliest.toLocaleDateString()),F_End_Date: formatDate(latest.toLocaleDateString()), color: projectcolorarray[programval["program_name"]], level: 1, id: resourceidarray[csvData[i].resource_name].toString() + "00" + projectidarray[programval["program_name"]].toString(), resource_id: resourceidarray[csvData[i].resource_name], project_id: projectidarray[programval["program_name"]], text: programval["program_name"], start_date: earliest, end_date: latest, isAlreadyLive: "false", parent: resourceidarray[csvData[i].resource_name].toString(), open: false
                 })
 
               jQuery.each(projectfilterdata, function (j, countryval) {
@@ -685,7 +659,7 @@ function createGanttChart(csvData, IsApplyFilter) {
 
                     resource_consolidation_view.push(
                       {
-                        node: 'country',F_Start_Date: formatDate(earliest.toLocaleDateString()), F_End_Date: formatDate(latest.toLocaleDateString()),color: projectcolorarray[programval["project_name"]], level: 2, id: resourceidarray[csvData[i].resource1_name].toString() + "00" + projectidarray[programval["project_name"]].toString() + "00" + countryidarray[countryval["country_name"]].toString(), country_id: countryidarray[countryval["country_name"]], resource_id: resourceidarray[csvData[i].resource1_name], project_id: projectidarray[programval["project_name"]], text: countryval["country_name"], start_date: countryval["start_date"], end_date: countryval["end_date"], isAlreadyLive: "false", parent: resourceidarray[csvData[i].resource1_name] + "00" + projectidarray[programval["project_name"]].toString()
+                        node: 'country',F_Start_Date: formatDate(earliest.toLocaleDateString()), F_End_Date: formatDate(latest.toLocaleDateString()),color: projectcolorarray[programval["program_name"]], level: 2, id: resourceidarray[csvData[i].resource_name].toString() + "00" + projectidarray[programval["program_name"]].toString() + "00" + countryidarray[countryval["country_name"]].toString(), country_id: countryidarray[countryval["country_name"]], resource_id: resourceidarray[csvData[i].resource_name], project_id: projectidarray[programval["program_name"]], text: countryval["country_name"], start_date: countryval["start_date"], end_date: countryval["end_date"], isAlreadyLive: "false", parent: resourceidarray[csvData[i].resource_name] + "00" + projectidarray[programval["program_name"]].toString()
 
                       })
                   }
@@ -702,46 +676,14 @@ function createGanttChart(csvData, IsApplyFilter) {
   });
 
 
-  console.log(program_consolidation_view);
-  console.log(region_consolidation_view);
-  console.log(resource_consolidation_view);
+  //console.log(program_consolidation_view);
+  //console.log(region_consolidation_view);
+  //console.log(resource_consolidation_view);
 
   region_consolidation_view = { "data": (region_consolidation_view) }
   program_consolidation_view = { "data": (program_consolidation_view) }
   resource_consolidation_view = { "data": (resource_consolidation_view) }
 
-
-  country_list = countryidarray
-  region_list = regionidarray
-  resource_list = resourceidarray
-
-  $('#program_consolidation_view').empty();
-  $('#region_consolidation_view').empty();
-  $('#resource_consolidation_view').empty();
-
-  $('#program_consolidation_view').append(new Option('All Program', 0));
-  $('#region_consolidation_view').append(new Option('All Region', 0));
-  $('#resource_consolidation_view').append(new Option('All Resource', 0));
-
-
-  for (var i in region_list) {
-    var option = new Option(i, region_list[i]); $('#region_consolidation_view').append($(option));
-  }
-  project_list = projectidarray
-
-  for (var i in project_list) {
-
-    var option = new Option(i, project_list[i]);
-    $('#program_consolidation_view').append($(option));
-  }
-
-  for (var i in resource_list) {
-    var option = new Option(i, resource_list[i]); $('#resource_consolidation_view').append($(option));
-  }
-
-  $('#program_consolidation_view').val(selectedprogramId);
-  $('#region_consolidation_view').val(selectedregionId);
-  $('#resource_consolidation_view').val(selectedresourceId);
 
   if (selectedviewType == 'program_consolidation_view') {
     tasks = program_consolidation_view
@@ -755,7 +697,7 @@ function createGanttChart(csvData, IsApplyFilter) {
   gantt.init("gantt_here");
   gantt.parse(tasks);
   changeColor('#655f61')
-
+  return countryidarray;
 }
 
 // Query.
