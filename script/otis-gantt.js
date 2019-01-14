@@ -1,11 +1,11 @@
 var FolderPath = "http://35.188.173.90/ganttChart/CSV/CurrentFile/";
 var ArchiveFolderPath = "http://35.188.173.90/ganttChart/CSV/Archive/";
-//var APIPath = "http://35.188.173.90/ganttChart/api/CSV/";
+var APIPath = "http://35.188.173.90/ganttChart/api/CSV/";
 var filterData="";
 
 //var FolderPath = "http://localhost:63562/CSV/CurrentFile/";
 //var ArchiveFolderPath = "http://localhost:63562/CSV/Archive/";
- var APIPath = "http://localhost:63562/api/CSV/";
+ //var APIPath = "http://localhost:63562/api/CSV/";
 
 var selectedviewType = "program_consolidation_view", countryData; var project_wise_data; var tasks;
 var selectedprogramId = 0; var selectedregionId = 0; var selectedresourceId = 0; var selectedcountryId = 0;
@@ -371,21 +371,6 @@ function getAllRoadMapData(result,IsApplyFilter)
   filterData=roadMapData
   createGanttChart(roadMapData, IsApplyFilter)
 
-}
-function uploadSharePointFile() {
-  jQuery.ajax({
-    url: APIPath + 'uploadSharePointFile', // Specify the path to your API service
-    type: 'POST',              // Assuming creation of an entity
-    //contentType: false,        // To force multipart/form-data
-    contentType: "application/x-www-form-urlencoded",
-    dataType: "JSON",
-    processData: false,
-    success: function (result) {
-      $("#historyDiv").hide();
-      location.reload();
-
-    }
-  });
 }
 function uploadHistoryFile(filename) {
   jQuery.ajax({
