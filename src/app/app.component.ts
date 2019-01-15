@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { ViewEncapsulation } from '@angular/core';
 
@@ -227,14 +227,16 @@ export class AppComponent implements OnInit {
         this.excelColordata = this.listRoadMapData[0].excelColordata
         this.excelRoadMapdata = this.listRoadMapData[0].excelRoadMapdata
         this.bindDropDown();
-      }
-    )
+      })
+     
+       error => {     
+      console.error("Error updating status!");
+    }
+      
+    
   }
 
   filterRoadmapData() {
-//console.log(this.selectedProgram)
-//console.log(this.selectedRegion)
-//console.log(this.selectedResource)
     this.searchexcelRoadMapdata = this.excelRoadMapdata.filter(
       o1 => this.selectedProgram.some(o2 => o2 == o1.program_name) &&
 

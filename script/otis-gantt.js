@@ -1,11 +1,11 @@
 var FolderPath = "http://35.188.173.90/ganttChart/CSV/CurrentFile/";
 var ArchiveFolderPath = "http://35.188.173.90/ganttChart/CSV/Archive/";
-//var APIPath = "http://35.188.173.90/ganttChart/api/CSV/";
+var APIPath = "http://35.188.173.90/ganttChart/api/CSV/";
 var filterData="";
 
 //var FolderPath = "http://localhost:63562/CSV/CurrentFile/";
 //var ArchiveFolderPath = "http://localhost:63562/CSV/Archive/";
- var APIPath = "http://localhost:63562/api/CSV/";
+ //var APIPath = "http://localhost:63562/api/CSV/";
 
 var selectedviewType = "program_consolidation_view", countryData; var project_wise_data; var tasks;
 var selectedprogramId = 0; var selectedregionId = 0; var selectedresourceId = 0; var selectedcountryId = 0;

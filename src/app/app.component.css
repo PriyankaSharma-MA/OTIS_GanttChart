@@ -30,3 +30,6 @@ padding-right:30px;
     width:120px !important;
 
   }  */
+  .holds-the-iframe {
+    background:url('assets/loader.gif') center center no-repeat;
+   }
