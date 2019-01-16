@@ -48,7 +48,7 @@ function showHistory() {
 }
 function createHistoryData(data) {
   // alert(JSON.stringify(data));
-  var str = "<thead><th>File name (MMDDYYYY HHMMSS)</th> <th  style='width: 20%;'></th> <th><a class='link'  onclick=hidehistory() ><img class='cancel'  src='assets/cancel.png' /></a></th></thead><tbody>";
+  var str = "<thead><th>File name (MMDDYY HHMM)</th> <th  style='width: 20%;'></th> <th><a class='link'  onclick=hidehistory() ><img class='cancel'  src='assets/cancel.png' /></a></th></thead><tbody>";
   for (var i = 0; i < data.length; i++) {
     if (i == 0) {
       str = str + "<tr class='selectedrow'>";
@@ -503,10 +503,11 @@ function createGanttChart(csvData, IsApplyFilter) {
                       resourcecolorarray[resourceval["resource_name"]] = nodecolor;
                       resourceid = resourceid + 1;
                     }
-
+                    var startdate,enddate;
                     program_consolidation_view.push(
                       {
-                        node: 'resource',F_Start_Date: formatDate(earliest.toLocaleDateString()),F_End_Date: formatDate(latest.toLocaleDateString()), color: resourcecolorarray[resourceval["resource_name"]], level: 2, id: projectidarray[csvData[i].program_name].toString() + "00" + countryidarray[Countryval["country_name"]].toString() + "00" + resourceidarray[resourceval["resource_name"]].toString(), country_id: countryidarray[Countryval["country_name"]], project_id: projectidarray[csvData[i].program_name].toString(), resource_id: resourceidarray[resourceval["resource_name"]], text: resourceval["resource_name"], start_date: resourceval["start_date"], end_date: resourceval["end_date"], isAlreadyLive: "false", parent: projectidarray[csvData[i].program_name].toString() + "00" + countryidarray[Countryval["country_name"]].toString()
+                       
+                        node: 'resource',F_Start_Date: formatDate(earliest.toLocaleDateString()),F_End_Date: formatDate(latest.toLocaleDateString()), color: resourcecolorarray[resourceval["resource_name"]], level: 2, id: projectidarray[csvData[i].program_name].toString() + "00" + countryidarray[Countryval["country_name"]].toString() + "00" + resourceidarray[resourceval["resource_name"]].toString(), country_id: countryidarray[Countryval["country_name"]], project_id: projectidarray[csvData[i].program_name].toString(), resource_id: resourceidarray[resourceval["resource_name"]], text: resourceval["resource_name"], start_date:earliest, end_date: latest, isAlreadyLive: "false", parent: projectidarray[csvData[i].program_name].toString() + "00" + countryidarray[Countryval["country_name"]].toString()
                       })
                   }
                 }
@@ -521,7 +522,7 @@ function createGanttChart(csvData, IsApplyFilter) {
     }
   });
 
-  //console.log(projectidarray);
+  console.log(program_consolidation_view);
   //console.log(countryidarray);
   //console.log(resourceidarray);
 
@@ -596,7 +597,7 @@ function createGanttChart(csvData, IsApplyFilter) {
                         {
                           region_consolidation_view.push(
                             {
-                              node: 'resource',F_Start_Date: formatDate(earliest.toLocaleDateString()), F_End_Date: formatDate(latest.toLocaleDateString()),color: resourcecolorarray[resourceval["resource_name"]], level: 3, id: regionidarray[csvData[l].region_name].toString() + "00" + countryidarray[countryval["country_name"]].toString() + "00" + projectidarray[programval["program_name"]].toString() + "00" + resourceidarray[resourceval["resource_name"]].toString(), region_id: regionidarray[csvData[l].region_name], country_id: countryidarray[val["country_name"]].toString(), project_id: projectidarray[val["program_name"]], resource_id: resourceidarray[resourceval["resource_name"]], text: resourceval["resource_name"], start_date: resourceval["start_date"], end_date: resourceval["end_date"], isAlreadyLive: "false", parent: regionidarray[csvData[l].region_name].toString() + "00" + countryidarray[countryval["country_name"]].toString() + "00" + projectidarray[programval["program_name"]].toString()
+                              node: 'resource',F_Start_Date: formatDate(earliest.toLocaleDateString()), F_End_Date: formatDate(latest.toLocaleDateString()),color: resourcecolorarray[resourceval["resource_name"]], level: 3, id: regionidarray[csvData[l].region_name].toString() + "00" + countryidarray[countryval["country_name"]].toString() + "00" + projectidarray[programval["program_name"]].toString() + "00" + resourceidarray[resourceval["resource_name"]].toString(), region_id: regionidarray[csvData[l].region_name], country_id: countryidarray[val["country_name"]].toString(), project_id: projectidarray[val["program_name"]], resource_id: resourceidarray[resourceval["resource_name"]], text: resourceval["resource_name"], start_date: earliest, end_date: latest, isAlreadyLive: "false", parent: regionidarray[csvData[l].region_name].toString() + "00" + countryidarray[countryval["country_name"]].toString() + "00" + projectidarray[programval["program_name"]].toString()
                             })
                         }
                       }
@@ -611,7 +612,7 @@ function createGanttChart(csvData, IsApplyFilter) {
       }
     }
   });
-  //console.log(regionidarray);
+  console.log(region_consolidation_view);
 
   dupesproject = [];
   dupescountry = [];
@@ -656,10 +657,12 @@ function createGanttChart(csvData, IsApplyFilter) {
                 if (!dupescountry[countryval["country_name"]]) {
                   dupescountry[countryval["country_name"]] = true;
                   {
-
+                 var countstartdate=null;countenddate=null;
+                 countstartdate=new Date(getdate(countryval["start_date"]))
+                 countenddate=new Date( getdate(countryval["end_date"]))
                     resource_consolidation_view.push(
                       {
-                        node: 'country',F_Start_Date: formatDate(earliest.toLocaleDateString()), F_End_Date: formatDate(latest.toLocaleDateString()),color: projectcolorarray[programval["program_name"]], level: 2, id: resourceidarray[csvData[i].resource_name].toString() + "00" + projectidarray[programval["program_name"]].toString() + "00" + countryidarray[countryval["country_name"]].toString(), country_id: countryidarray[countryval["country_name"]], resource_id: resourceidarray[csvData[i].resource_name], project_id: projectidarray[programval["program_name"]], text: countryval["country_name"], start_date: countryval["start_date"], end_date: countryval["end_date"], isAlreadyLive: "false", parent: resourceidarray[csvData[i].resource_name] + "00" + projectidarray[programval["program_name"]].toString()
+                        node: 'country',F_Start_Date: formatDate(countstartdate.toLocaleDateString()), F_End_Date: formatDate(countenddate.toLocaleDateString()),color: projectcolorarray[programval["program_name"]], level: 2, id: resourceidarray[csvData[i].resource_name].toString() + "00" + projectidarray[programval["program_name"]].toString() + "00" + countryidarray[countryval["country_name"]].toString(), country_id: countryidarray[countryval["country_name"]], resource_id: resourceidarray[csvData[i].resource_name], project_id: projectidarray[programval["program_name"]], text: countryval["country_name"], start_date: countstartdate, end_date:countenddate, isAlreadyLive: "false", parent: resourceidarray[csvData[i].resource_name] + "00" + projectidarray[programval["program_name"]].toString()
 
                       })
                   }
@@ -676,7 +679,7 @@ function createGanttChart(csvData, IsApplyFilter) {
   });
 
 
-  //console.log(program_consolidation_view);
+  console.log(resource_consolidation_view);
   //console.log(region_consolidation_view);
   //console.log(resource_consolidation_view);
 
@@ -731,11 +734,8 @@ colorquery = (colorData, filters) => {
 }
 function getdate(date) {
   var datepart = date.split('-');
-  //alert(datepart[0]);
   var date = datepart[0]
- // var month = datepart[1]
- // var year = datepart[2]
   var newdate = datepart[1] + '-' + datepart[0] + '-' + datepart[2]
   return newdate;
 }
-// Log.
+
