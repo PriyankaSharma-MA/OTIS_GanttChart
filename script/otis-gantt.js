@@ -1,12 +1,13 @@
-var FolderPath = "http://35.188.173.90/ganttChart/CSV/CurrentFile/";
-var ArchiveFolderPath = "http://35.188.173.90/ganttChart/CSV/Archive/";
-var APIPath = "http://35.188.173.90/ganttChart/api/CSV/";
+// var FolderPath = "http://35.188.173.90/ganttChart/CSV/CurrentFile/";
+// var ArchiveFolderPath = "http://172.23.116.87/roadmapapi/CSV/Archive/";
+// var APIPath = "http://172.23.116.87/roadmapapi/api/CSV/";
+
+
+var FolderPath = "http://localhost:63562/CSV/CurrentFile/";
+var ArchiveFolderPath = "http://localhost:63562/CSV/Archive/";
+var APIPath = "http://localhost:63562/api/CSV/";
+
 var filterData="";
-
-//var FolderPath = "http://localhost:63562/CSV/CurrentFile/";
-//var ArchiveFolderPath = "http://localhost:63562/CSV/Archive/";
- //var APIPath = "http://localhost:63562/api/CSV/";
-
 var selectedviewType = "program_consolidation_view", countryData; var project_wise_data; var tasks;
 var selectedprogramId = 0; var selectedregionId = 0; var selectedresourceId = 0; var selectedcountryId = 0;
 var selectedprogramText = "0"; var selectedregionText = "0"; var selectedresourceText = "0"; var selectedcountryText = "0";
@@ -22,25 +23,19 @@ regioncolorarray = [];
 
 var roadMapData = "", colorData = "";
 
-function returnValue()
-{
-  return projectidarray
-}
 function hidehistory() {
   $("#historyDiv").hide();
 }
 function showHistory() {
   //alert('hi')
   jQuery.ajax({
-    url: APIPath + 'GetArchive', // Specify the path to your API service
+    url: APIPath + 'getArchive', // Specify the path to your API service
     type: 'GET',              // Assuming creation of an entity
     contentType: false,        // To force multipart/form-data
     //data: data,
     processData: false,
     success: function (data) {
       // Handle the response on success
-
-      // alert(JSON.stringify(data));
       createHistoryData(data)
       $("#historyDiv").show();
     }
@@ -86,7 +81,7 @@ function handleFileSelect() {
       data.append('file', input.files[0]);
 
       jQuery.ajax({
-        url: APIPath + 'UploadExcelFile', // Specify the path to your API service
+        url: APIPath + 'uploadExcelFile', // Specify the path to your API service
         type: 'POST',              // Assuming creation of an entity
         contentType: false,        // To force multipart/form-data
         data: data,
@@ -152,9 +147,7 @@ gantt.config.date_scale = "%Y";
 
 gantt.config.columns = [
   { name: "text", label: "Program Name", tree: true, width: 150 },
-  //{ name: "start_date", label: "Start Date", align: "center" },
   { name: "F_Start_Date", label: "Start Date", align: "center" } ,
-  //{ name: "end_date", label: "End Date", align: "center" },
   { name: "F_End_Date", label: "End Date", align: "center" }
 
 
@@ -203,25 +196,6 @@ function changeSelectedResource(selectionId) {
   applyfilter()
 }
 
-function ColorLuminance(hex, lum) {
-
-  // validate hex string
-  hex = String(hex).replace(/[^0-9a-f]/gi, '');
-  if (hex.length < 6) {
-    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-  }
-  lum = lum || 0;
-
-  // convert to decimal and change luminosity
-  var rgb = "#", c, i;
-  for (i = 0; i < 3; i++) {
-    c = parseInt(hex.substr(i * 2, 2), 16);
-    c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
-    rgb += ("00" + c).substr(c.length);
-  }
-
-  return rgb;
-}
 function changeColor(color) {
   gantt.clearAll(); gantt.parse(tasks);
 }
@@ -373,6 +347,7 @@ function getAllRoadMapData(result,IsApplyFilter)
 
 }
 function uploadSharePointFile() {
+  //alert('hi')
   jQuery.ajax({
     url: APIPath + 'uploadSharePointFile', // Specify the path to your API service
     type: 'POST',              // Assuming creation of an entity
@@ -413,6 +388,13 @@ function formatDate(date) {
 //alert([day, month, year].join('/'));
  return [month, day, year].join('/');
 }
+
+function getdate(date) {
+  var datepart = date.split('-');
+  var date = datepart[0]
+  var newdate = datepart[0] + '-' + datepart[1] + '-' + datepart[2]
+  return newdate;
+}
 function createGanttChart(csvData, IsApplyFilter) {
 
   program_consolidation_view = []
@@ -429,10 +411,9 @@ function createGanttChart(csvData, IsApplyFilter) {
   dupesregion = [];
   dupescolorarray = [];
   var defaultcolor="#655f61"
- // var nodecolor = "#655f61";
+
   var startdates = null, enddates = null, earliest = null, latest = null;
-  //console.log('filter data')
-  //console.log(csvData)
+
   jQuery.each(csvData, function (i, programval) {
     if (!dupesproject[csvData[i].program_name]) {
 
@@ -454,7 +435,7 @@ function createGanttChart(csvData, IsApplyFilter) {
         projectfilterdata = query(csvData, [{ key: 'program_name', value: csvData[i].program_name }])
         startdates = projectfilterdata.map(function (x) { return new Date(getdate(x["start_date"])); })
         enddates = projectfilterdata.map(function (x) { return new Date(getdate(x["end_date"])); })
-        ////console.log(projectfilterdata)
+
         earliest = new Date(Math.min.apply(null, startdates));
         latest = new Date(Math.max.apply(null, enddates));
 
@@ -471,7 +452,7 @@ function createGanttChart(csvData, IsApplyFilter) {
               countryfilterdata = query(csvData, [{ key: 'program_name', value: csvData[i].program_name }, { key: 'country_name', value: Countryval["country_name"] }])
               startdates = countryfilterdata.map(function (x) { return new Date(getdate(x["start_date"])); })
               enddates = countryfilterdata.map(function (x) { return new Date(getdate(x["end_date"])); })
-              ////console.log(projectfilterdata)
+
               earliest = new Date(Math.min.apply(null, startdates));
               latest = new Date(Math.max.apply(null, enddates));
               if (countryidarray[Countryval["country_name"]] == undefined) {
@@ -522,7 +503,7 @@ function createGanttChart(csvData, IsApplyFilter) {
     }
   });
 
-  console.log(program_consolidation_view);
+  //console.log(program_consolidation_view);
   //console.log(countryidarray);
   //console.log(resourceidarray);
 
@@ -679,7 +660,7 @@ function createGanttChart(csvData, IsApplyFilter) {
   });
 
 
-  console.log(resource_consolidation_view);
+  //console.log(resource_consolidation_view);
   //console.log(region_consolidation_view);
   //console.log(resource_consolidation_view);
 
@@ -702,7 +683,6 @@ function createGanttChart(csvData, IsApplyFilter) {
   changeColor('#655f61')
   return countryidarray;
 }
-
 // Query.
 query = (csvData, filters) => {
 
@@ -732,10 +712,5 @@ colorquery = (colorData, filters) => {
   })
 
 }
-function getdate(date) {
-  var datepart = date.split('-');
-  var date = datepart[0]
-  var newdate = datepart[1] + '-' + datepart[0] + '-' + datepart[2]
-  return newdate;
-}
+
 

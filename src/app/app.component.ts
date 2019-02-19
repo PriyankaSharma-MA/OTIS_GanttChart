@@ -26,7 +26,6 @@ export class AppComponent implements OnInit {
 
   title = 'ganttchart';
   response: string;
- 
 
   selectedProgram: string[];
   listProgram: ProgramList[];
@@ -57,9 +56,11 @@ export class AppComponent implements OnInit {
   public resourceFilterCtrl: FormControl = new FormControl();
   constructor(
     private fb: FormBuilder, private masterService: MasterService) { }
+    
 
 
   ngOnInit() {
+    this.getApiPath();
     this.searchGanttChart = this.fb.group({
   
       program: new FormControl(''),
@@ -79,9 +80,20 @@ export class AppComponent implements OnInit {
       .subscribe(() => {
         this.filterResource();
       });
-    this.getRoadMapData();
+    
  
   }
+  getApiPath()
+{
+  var obj
+         this.masterService.getJSON().subscribe(data => {
+           obj=data;
+           localStorage.setItem('apiurl', obj.apiurl);
+           localStorage.setItem('appurl', obj.appurl);
+           this.getRoadMapData();
+          },
+           error => console.log(error));
+}
   togglePerOne( key) {
 
     if (key == 'region') {
@@ -246,6 +258,7 @@ export class AppComponent implements OnInit {
     createGanttChart(this.searchexcelRoadMapdata, false)
   }
   bindDropDown() {
+
     this.listProgram = [];
     this.listRegion = [];
     this.listResource = [];
@@ -253,7 +266,7 @@ export class AppComponent implements OnInit {
     var dupesprogram = [];
     var dupesregion = [];
     var dupesresource = [];
-
+  
     var filteredList = this.excelRoadMapdata
     for (let i = 0; i < filteredList.length; i++) {
       let rowData = filteredList[i];
