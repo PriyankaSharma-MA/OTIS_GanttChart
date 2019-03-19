@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false
+<<<<<<< HEAD
  ,apiurl:"http://localhost:63562/api/CSV/",
   siteurl:"http://localhost:63562/api/CSV/"
   // ,apiurl:"http://35.188.173.90/ganttChart/api/CSV/",
@@ -11,6 +12,12 @@ export const environment = {
 //,apiurl:"http://172.23.116.87/api/CSV/",
   //siteurl:"http://172.23.116.87/api/CSV/"
  
+=======
+  ,apiurl:"http://localhost:63562/api/CSV/",
+  siteurl:"http://localhost:63562/api/CSV/"
+   //,apiurl:"http://35.188.173.90/ganttChart/api/CSV/",
+  // siteurl:"http://35.188.173.90/ganttChart/api/CSV/"
+>>>>>>> parent of 4a5db46... committ
 };
 
 /*

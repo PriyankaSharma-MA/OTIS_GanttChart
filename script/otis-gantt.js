@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 console.log(window.location.host)
 var appurl=window.location.host 
@@ -10,6 +11,16 @@ $.getJSON('assets/apiurl.json', function(data) {
   APIPath =data.apiurl +"/api/CSV/";
   APPPath =data.appurl;
 });
+=======
+var FolderPath = "http://35.188.173.90/ganttChart/CSV/CurrentFile/";
+var ArchiveFolderPath = "http://35.188.173.90/ganttChart/CSV/Archive/";
+var APIPath = "http://35.188.173.90/ganttChart/api/CSV/";
+var filterData="";
+
+//var FolderPath = "http://localhost:63562/CSV/CurrentFile/";
+//var ArchiveFolderPath = "http://localhost:63562/CSV/Archive/";
+ //var APIPath = "http://localhost:63562/api/CSV/";
+>>>>>>> parent of 4a5db46... committ
 
  FolderPath = APPPath +"/CSV/CurrentFile/";
  ArchiveFolderPath = APPPath +"/CSV/Archive/";
@@ -353,6 +364,7 @@ function getAllRoadMapData(result,IsApplyFilter)
   createGanttChart(roadMapData, IsApplyFilter)
 
 }
+<<<<<<< HEAD
 function uploadSharePointFile() {
   //alert('hi')
   jQuery.ajax({
@@ -369,6 +381,8 @@ function uploadSharePointFile() {
     }
   });
 }
+=======
+>>>>>>> parent of 4a5db46... committ
 function uploadHistoryFile(filename) {
   jQuery.ajax({
     url: APIPath + 'uploadHistoryFile?filename=' + filename, // Specify the path to your API service
