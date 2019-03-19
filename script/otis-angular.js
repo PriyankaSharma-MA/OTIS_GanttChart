@@ -207,171 +207,171 @@ otisApp.controller('OtisCtrl', ['$scope', function ($scope) {
     }
   ];*/
   
-  var imgProjectMap = [{
-      project_id: 3010,
-      year: 0,
-      img: "CustomerPortal.png"
-    },
-    {
-      project_id: 3000,
-      year: 2018,
-      img: "dynamics_2018.jpg"
-    },
-    {
-      project_id: 3000,
-      year: 2019,
-      img: "dynamics_2019.jpg"
-    },
-    {
-      project_id: 3000,
-      year: 0,
-      img: "dynamics.jpg"
-    },
-    {
-      project_id: 3002,
-      year: 0,
-      img: "eLogistics.png"
-    },
-    {
-      project_id: 3004,
-      year: 0,
-      img: "eServices.png"
-    },
-    {
-      project_id: 3014,
-      year: 0,
-      img: "FRS.png"
-    },
-    {
-      project_id: 3003,
-      year: 0,
-      img: "IOT.jpg"
-    },
-    {
-      project_id: 3001,
-      year: 2018,
-      img: "jde_2018.jpg"
-    },
-    {
-      project_id: 3001,
-      year: 2019,
-      img: "jde_2019.jpg"
-    },
-    {
-      project_id: 3001,
-      year: 2020,
-      img: "jde_2020.jpg"
-    },
-    {
-      project_id: 3001,
-      year: 0,
-      img: "jde.jpg"
-    },
-    {
-      project_id: 3006,
-      year: 0,
-      img: "kronos.png"
-    },
-    {
-      project_id: 0,
-      year: 0,
-      img: "netlogo.png"
-    },
-    {
-      project_id: 3011,
-      year: 0,
-      img: "OTIS.jpg"
-    },
-    {
-      project_id: 0,
-      year: 0,
-      img: "Role_1.svg"
-    },
-    {
-      project_id: 0,
-      year: 0,
-      img: "Server_1.png"
-    },
-    {
-      project_id: 3008,
-      year: 0,
-      img: "SpareParts.png"
-    },
-    {
-      project_id: 0,
-      year: 0,
-      img: "Sql-Server.png"
-    },
-    {
-      project_id: 3013,
-      year: 0,
-      img: "SupplierPortal.gif"
-    },
-    {
-      project_id: 3009,
-      year: 0,
-      img: "TKit.png"
-    },
-    {
-      project_id: 3007,
-      year: 0,
-      img: "windchil.jpg"
-    },
-    {
-      project_id: 3005,
-      year: 0,
-      img: "workday.jpg"
-    },
-    {
-      project_id: 3012,
-      year: 0,
-      img: "xClass.png"
-    }
-  ];
-  $scope.buildLayout = function (selYear = 2019, selQuarterEndMonth = 4) {
-    document.getElementById("gantt_here").style.height = '40%';
-    $scope.visibleLayout = true;
-    $('#cardTimelineBar').show();
-    $scope.images = []; //reset
-    // selYear = !selYear ? new Date().getFullYear() : selYear;
-    // selQuarterEndMonth = !selQuarterEndMonth ? new Date().getMonth() + 1 : selQuarterEndMonth;
-    var isJde = false;
-    var isDynamics = false;
-    angular.forEach(program_consolidation_view.data, function (task, index) {
-       //var task = program_consolidation_view.data[i];
-      //alert(task)
-      if (task.country_id == selectedCountryId && task.parent) {
-        var projectEndDate = typeof(task.end_date) == 'string' ? new Date( task.end_date.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3") ): task.end_date;
-        var projectYear = projectEndDate.getFullYear();
-        var projectMonth = projectEndDate.getMonth() + 1;
-        var cutDate = moment(new Date(projectYear, projectMonth) ).toDate();
-        console.log(task); console.log(cutDate + "-" + new Date(projectYear, projectMonth) 
-         + "-" + new Date(selYear, selQuarterEndMonth)); 
-        if (cutDate <= moment(new Date(selYear, selQuarterEndMonth) ).toDate() 
-        	|| task.isAlreadyLive == "true") {
-          var imgObj = imgProjectMap.filter(function(elm){
-            return elm.project_id == task.project_id && elm.year === 0;
-          });
-          if(imgObj && imgObj.length) {
-            $scope.images.push(imgObj[0].img);
-            if(imgObj[0].img.toLowerCase().indexOf('jde') > -1) {
-              isJde = true;
-            }
-            if(imgObj[0].img.toLowerCase().indexOf('dynamics') > -1) {
-              isDynamics = true;
-            }
-          }
-        }
-      }
-    });
-    // special request to show legacy images for JDE & Dynamics if not present
-    if (!isJde) {
-      $scope.images.push('jde_legacy_erp.png');
-    }
-    if (!isDynamics) {
-      $scope.images.push('dynamics_legacy_crm.png');
-    }
-  }
+  // var imgProjectMap = [{
+  //     project_id: 3010,
+  //     year: 0,
+  //     img: "CustomerPortal.png"
+  //   },
+  //   {
+  //     project_id: 3000,
+  //     year: 2018,
+  //     img: "dynamics_2018.jpg"
+  //   },
+  //   {
+  //     project_id: 3000,
+  //     year: 2019,
+  //     img: "dynamics_2019.jpg"
+  //   },
+  //   {
+  //     project_id: 3000,
+  //     year: 0,
+  //     img: "dynamics.jpg"
+  //   },
+  //   {
+  //     project_id: 3002,
+  //     year: 0,
+  //     img: "eLogistics.png"
+  //   },
+  //   {
+  //     project_id: 3004,
+  //     year: 0,
+  //     img: "eServices.png"
+  //   },
+  //   {
+  //     project_id: 3014,
+  //     year: 0,
+  //     img: "FRS.png"
+  //   },
+  //   {
+  //     project_id: 3003,
+  //     year: 0,
+  //     img: "IOT.jpg"
+  //   },
+  //   {
+  //     project_id: 3001,
+  //     year: 2018,
+  //     img: "jde_2018.jpg"
+  //   },
+  //   {
+  //     project_id: 3001,
+  //     year: 2019,
+  //     img: "jde_2019.jpg"
+  //   },
+  //   {
+  //     project_id: 3001,
+  //     year: 2020,
+  //     img: "jde_2020.jpg"
+  //   },
+  //   {
+  //     project_id: 3001,
+  //     year: 0,
+  //     img: "jde.jpg"
+  //   },
+  //   {
+  //     project_id: 3006,
+  //     year: 0,
+  //     img: "kronos.png"
+  //   },
+  //   {
+  //     project_id: 0,
+  //     year: 0,
+  //     img: "netlogo.png"
+  //   },
+  //   {
+  //     project_id: 3011,
+  //     year: 0,
+  //     img: "OTIS.jpg"
+  //   },
+  //   {
+  //     project_id: 0,
+  //     year: 0,
+  //     img: "Role_1.svg"
+  //   },
+  //   {
+  //     project_id: 0,
+  //     year: 0,
+  //     img: "Server_1.png"
+  //   },
+  //   {
+  //     project_id: 3008,
+  //     year: 0,
+  //     img: "SpareParts.png"
+  //   },
+  //   {
+  //     project_id: 0,
+  //     year: 0,
+  //     img: "Sql-Server.png"
+  //   },
+  //   {
+  //     project_id: 3013,
+  //     year: 0,
+  //     img: "SupplierPortal.gif"
+  //   },
+  //   {
+  //     project_id: 3009,
+  //     year: 0,
+  //     img: "TKit.png"
+  //   },
+  //   {
+  //     project_id: 3007,
+  //     year: 0,
+  //     img: "windchil.jpg"
+  //   },
+  //   {
+  //     project_id: 3005,
+  //     year: 0,
+  //     img: "workday.jpg"
+  //   },
+  //   {
+  //     project_id: 3012,
+  //     year: 0,
+  //     img: "xClass.png"
+  //   }
+  // ];
+  // $scope.buildLayout = function (selYear = 2019, selQuarterEndMonth = 4) {
+  //   document.getElementById("gantt_here").style.height = '40%';
+  //   $scope.visibleLayout = true;
+  //   $('#cardTimelineBar').show();
+  //   $scope.images = []; //reset
+  //   // selYear = !selYear ? new Date().getFullYear() : selYear;
+  //   // selQuarterEndMonth = !selQuarterEndMonth ? new Date().getMonth() + 1 : selQuarterEndMonth;
+  //   var isJde = false;
+  //   var isDynamics = false;
+  //   angular.forEach(program_consolidation_view.data, function (task, index) {
+  //      //var task = program_consolidation_view.data[i];
+  //     //alert(task)
+  //     if (task.country_id == selectedCountryId && task.parent) {
+  //       var projectEndDate = typeof(task.end_date) == 'string' ? new Date( task.end_date.replace( /(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3") ): task.end_date;
+  //       var projectYear = projectEndDate.getFullYear();
+  //       var projectMonth = projectEndDate.getMonth() + 1;
+  //       var cutDate = moment(new Date(projectYear, projectMonth) ).toDate();
+  //       console.log(task); console.log(cutDate + "-" + new Date(projectYear, projectMonth) 
+  //        + "-" + new Date(selYear, selQuarterEndMonth)); 
+  //       if (cutDate <= moment(new Date(selYear, selQuarterEndMonth) ).toDate() 
+  //       	|| task.isAlreadyLive == "true") {
+  //         var imgObj = imgProjectMap.filter(function(elm){
+  //           return elm.project_id == task.project_id && elm.year === 0;
+  //         });
+  //         if(imgObj && imgObj.length) {
+  //           $scope.images.push(imgObj[0].img);
+  //           if(imgObj[0].img.toLowerCase().indexOf('jde') > -1) {
+  //             isJde = true;
+  //           }
+  //           if(imgObj[0].img.toLowerCase().indexOf('dynamics') > -1) {
+  //             isDynamics = true;
+  //           }
+  //         }
+  //       }
+  //     }
+  //   });
+  //   // special request to show legacy images for JDE & Dynamics if not present
+  //   // if (!isJde) {
+  //   //   $scope.images.push('jde_legacy_erp.png');
+  //   // }
+  //   // if (!isDynamics) {
+  //   //   $scope.images.push('dynamics_legacy_crm.png');
+  //   // }
+  // }
 
   $scope.resetLayout = function() {
     $scope.selYear = 2021;
