@@ -1,5 +1,5 @@
 {
-    "apiurl": "http://35.188.173.90/ganttChart" ,
+    "apiurl": "http://localhost:48157/api/format/" ,
     "appurl": "http://localhost:4200"     
        
 }
