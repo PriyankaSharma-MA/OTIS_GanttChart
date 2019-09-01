@@ -33,3 +33,22 @@ padding-right:30px;
   .holds-the-iframe {
     background:url('assets/loader.gif') center center no-repeat;
    }
+   ::ng-deep .grid_cell{
+    width: 330px !important;
+   }
+   ::ng-deep .gantt_grid_scale {
+    width: 329px !important;
+}
+::ng-deep .gantt_grid_data {
+  width: 100%;
+  overflow: auto;
+}
+::ng-deep .gantt_data_area {
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

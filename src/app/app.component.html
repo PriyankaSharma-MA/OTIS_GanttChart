@@ -1,5 +1,5 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="width: 100%; height: 100%" class="md-body-1">
+<div style="width: 100%; height: 100%;overflow-x:scroll;overflow-y: auto" class="md-body-1">
   <div class="md-padding" layout-xs="column" layout="row" style="width: 100%; height: 100%; padding: 20px;">
     <div class="container" id="" style='width: 100%;'>
 
@@ -58,11 +58,13 @@
       </div>
 
       <div class="sidebyside" ng-controller="myCtrl" style="margin-top:9px;float:right">
-        <!-- <div class="upload" style="float:left;margin-right: 8px">
-          <a class="download" onclick="uploadSharePointFile();">
+        <div class="upload" style="float:left;margin-right: 8px">
+          <!-- <a class="download" onclick="uploadSharePointFile();"> -->
+              <a class="download" (click)="uploadSharePointFile();">
+                  
             Refresh </a>
-        </div> -->
-         <div class="upload" style="float:left;margin-right: 8px">
+        </div>
+         <div class="upload" style="float:left;margin-right: 8px;display:none;">
           Upload
           <input type="file" class="hide_file" onchange="handleFileSelect();" file-model="myFile" accept=".xlsx" style="display:inline;"
           />
@@ -75,16 +77,16 @@
             <a class="download" href="http://35.188.173.90/ganttChart/CSV/CurrentFile/Global_IT_Roadmap.xlsx">
               Template </a>
           </div> -->
-        <div class="upload" style="float:right;">
+        <!-- <div class="upload" style="float:right;">
           <a class="download" onclick="showHistory();"> History </a>
-        </div>
+        </div> -->
 
       </div>
-      <div id="historyDiv" class="historycontainer">
+      <!-- <div id="historyDiv" class="historycontainer">
         <table id="historyTable">
 
         </table>
-      </div>
+      </div> -->
     </div>
     <div id="gantt_view" style="height: 90%" class="holds-the-iframe">
       <div id="gantt_here" style='height: 100%; margin: 1px 0px 20px 0px;'>

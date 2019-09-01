@@ -11,8 +11,8 @@ export class MasterService {
     constructor(private http: HttpClient) { }
 
     //Mention API URL
- 
-    private webApiUrl = localStorage.getItem('apiurl') +"/api/CSV/";
+    private webApiUrl = localStorage.getItem('apiurl');
+    //private webApiUrl = localStorage.getItem('apiurl') +"/api/CSV/";
     //Create function to get the data
 
     public getJSON(): Observable<any[]> {
@@ -33,6 +33,17 @@ export class MasterService {
         finalheaders.append("Access-Control-Allow-Origin", "true")
         //Call the get function
         return this.http.get<RoadMapData[]>(this.webApiUrl + "getAllExcelData?filename=" +filename , { headers: finalheaders });
+          
+    }
+    
+    uploadSharePointFile(): Observable<RoadMapData[]> {
+        //Create header object
+        let headers = new HttpHeaders();
+        //Mention http header details
+        let finalheaders = headers.append('Content-Type', 'application/json');
+        finalheaders.append("Access-Control-Allow-Origin", "true")
+        //Call the get function
+        return this.http.post<any>(this.webApiUrl + "uploadSharePointFile" , { headers: finalheaders });
           
     }
     //Error Handling

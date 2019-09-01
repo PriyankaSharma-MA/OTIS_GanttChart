@@ -31,23 +31,17 @@ export class AppComponent implements OnInit {
   listProgram: ProgramList[];
   finallistProgram: ProgramList[];
 
-
-
   selectedRegion: string[];
   listRegion: RegionList[];
   finallistRegion: RegionList[];
 
-
-
-  selectedResource:string[];
+  selectedResource: string[];
   listResource: ResourceList[];
   finallistResource: ResourceList[];
-
 
   searchexcelRoadMapdata: excelRoadMapdata[];
   listRoadMapData: RoadMapData[];
 
- 
   excelColordata: string[]
   excelRoadMapdata: excelRoadMapdata[]
 
@@ -56,13 +50,12 @@ export class AppComponent implements OnInit {
   public resourceFilterCtrl: FormControl = new FormControl();
   constructor(
     private fb: FormBuilder, private masterService: MasterService) { }
-    
 
 
   ngOnInit() {
     this.getApiPath();
     this.searchGanttChart = this.fb.group({
-  
+
       program: new FormControl(''),
       region: new FormControl(''),
       resource: new FormControl('')
@@ -80,65 +73,63 @@ export class AppComponent implements OnInit {
       .subscribe(() => {
         this.filterResource();
       });
-    
- 
+
+
   }
-  getApiPath()
-{
-  var obj
-         this.masterService.getJSON().subscribe(data => {
-           obj=data;
-           localStorage.setItem('apiurl', obj.apiurl);
-           localStorage.setItem('appurl', obj.appurl);
-           this.getRoadMapData();
-          },
-           error => console.log(error));
-}
-  togglePerOne( key) {
+  getApiPath() {
+    var obj
+    this.masterService.getJSON().subscribe(data => {
+      obj = data;
+      localStorage.setItem('apiurl', obj.apiurl);
+      localStorage.setItem('appurl', obj.appurl);
+      this.uploadSharePointFile();
+      //this.getRoadMapData();
+
+    },
+      error => console.log(error));
+  }
+  togglePerOne(key) {
 
     if (key == 'region') {
       if (this.allregionSelected.selected) {
         this.allregionSelected.deselect();
-        this.selectedRegion=this.searchGanttChart.controls.region.value;
+        this.selectedRegion = this.searchGanttChart.controls.region.value;
         this.filterRoadmapData();
         return false;
       }
-      if (this.searchGanttChart.controls.region.value.length == this.listRegion.length)
-      {
+      if (this.searchGanttChart.controls.region.value.length == this.listRegion.length) {
         this.allregionSelected.select();
-     
+
       }
-      this.selectedRegion=this.searchGanttChart.controls.region.value;
+      this.selectedRegion = this.searchGanttChart.controls.region.value;
     }
 
     else if (key == 'program') {
       if (this.allProgramSelected.selected) {
         this.allProgramSelected.deselect();
-        this.selectedProgram=this.searchGanttChart.controls.program.value;
+        this.selectedProgram = this.searchGanttChart.controls.program.value;
         this.filterRoadmapData();
         return false;
       }
-      if (this.searchGanttChart.controls.program.value.length == this.listProgram.length)
-      {
+      if (this.searchGanttChart.controls.program.value.length == this.listProgram.length) {
         this.allProgramSelected.select();
-      
+
       }
-      this.selectedProgram=this.searchGanttChart.controls.program.value;
-    } 
-    
+      this.selectedProgram = this.searchGanttChart.controls.program.value;
+    }
+
     else if (key == 'resource') {
       if (this.allresourceSelected.selected) {
         this.allresourceSelected.deselect();
-        this.selectedResource=this.searchGanttChart.controls.resource.value;
+        this.selectedResource = this.searchGanttChart.controls.resource.value;
         this.filterRoadmapData();
         return false;
       }
-      if (this.searchGanttChart.controls.resource.value.length == this.listResource.length)
-      {
+      if (this.searchGanttChart.controls.resource.value.length == this.listResource.length) {
         this.allresourceSelected.select();
-      
+
       }
-      this.selectedResource=this.searchGanttChart.controls.resource.value;
+      this.selectedResource = this.searchGanttChart.controls.resource.value;
     }
     this.filterRoadmapData();
 
@@ -152,26 +143,26 @@ export class AppComponent implements OnInit {
       } else {
         this.searchGanttChart.controls.region.patchValue([]);
       }
-      this.selectedRegion=this.searchGanttChart.controls.region.value;
-    } else  if (key == 'program') {
+      this.selectedRegion = this.searchGanttChart.controls.region.value;
+    } else if (key == 'program') {
       if (this.allProgramSelected.selected) {
         this.searchGanttChart.controls.program
           .patchValue([...this.listProgram.map(item => item.value), 0]);
       } else {
         this.searchGanttChart.controls.program.patchValue([]);
       }
-      this.selectedProgram=this.searchGanttChart.controls.program.value;
-    }else  if (key == 'resource') {
+      this.selectedProgram = this.searchGanttChart.controls.program.value;
+    } else if (key == 'resource') {
       if (this.allresourceSelected.selected) {
         this.searchGanttChart.controls.resource
           .patchValue([...this.listResource.map(item => item.value), 0]);
       } else {
         this.searchGanttChart.controls.resource.patchValue([]);
       }
-      this.selectedResource=this.searchGanttChart.controls.resource.value;
+      this.selectedResource = this.searchGanttChart.controls.resource.value;
     }
     this.filterRoadmapData();
-    console.log (this.selectedProgram)
+    console.log(this.selectedProgram)
   }
 
   private filterProgram() {
@@ -229,7 +220,19 @@ export class AppComponent implements OnInit {
       this.listResource = this.finallistResource.filter(item => item.label.toLowerCase().indexOf(search) > -1)
 
   }
+  uploadSharePointFile()
+  {
+    this.masterService.uploadSharePointFile().subscribe(
+      data => {
+       
+        this.getRoadMapData();
+      })
 
+    error => {
+      console.error("Error updating status!");
+    }
+
+  }
 
   getRoadMapData() {
     this.masterService.getRoadMapData('Global_IT_Roadmap.xlsx').subscribe(
@@ -240,12 +243,12 @@ export class AppComponent implements OnInit {
         this.excelRoadMapdata = this.listRoadMapData[0].excelRoadMapdata
         this.bindDropDown();
       })
-     
-       error => {     
+
+    error => {
       console.error("Error updating status!");
     }
-      
-    
+
+
   }
 
   filterRoadmapData() {
@@ -266,7 +269,7 @@ export class AppComponent implements OnInit {
     var dupesprogram = [];
     var dupesregion = [];
     var dupesresource = [];
-  
+
     var filteredList = this.excelRoadMapdata
     for (let i = 0; i < filteredList.length; i++) {
       let rowData = filteredList[i];
@@ -301,18 +304,18 @@ export class AppComponent implements OnInit {
     this.finallistRegion = this.listRegion;
     this.finallistResource = this.listResource;
     this.searchGanttChart.controls.program
-    .patchValue([...this.listProgram.map(item => item.value), 0]);
+      .patchValue([...this.listProgram.map(item => item.value), 0]);
     this.searchGanttChart.controls.region
-    .patchValue([...this.listRegion.map(item => item.value), 0]);
+      .patchValue([...this.listRegion.map(item => item.value), 0]);
     this.searchGanttChart.controls.resource
-    .patchValue([...this.listResource.map(item => item.value), 0]);
-   
-    this.selectedProgram=[];
-    this.selectedRegion=[]
-    this.selectedResource=[]
-    this.listProgram.forEach(item=>(this.selectedProgram.push(item.value)))
-    this.listRegion.forEach(item=>(this.selectedRegion.push(item.value)))
-    this.listResource.forEach(item=>(this.selectedResource.push(item.value)))
+      .patchValue([...this.listResource.map(item => item.value), 0]);
+
+    this.selectedProgram = [];
+    this.selectedRegion = []
+    this.selectedResource = []
+    this.listProgram.forEach(item => (this.selectedProgram.push(item.value)))
+    this.listRegion.forEach(item => (this.selectedRegion.push(item.value)))
+    this.listResource.forEach(item => (this.selectedResource.push(item.value)))
   }
 
 }

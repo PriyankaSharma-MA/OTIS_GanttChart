@@ -1,5 +1,6 @@
 {
-    "apiurl": "http://localhost:48157/api/format/" ,
+    "apiurl1": "http://35.188.173.90/ganttChart/api/CSV/" ,
+    "apiurl": "http://localhost:63562/api/CSV/" ,
     "appurl": "http://localhost:4200"     
        
 }
